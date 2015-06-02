@@ -19,6 +19,12 @@ public class Personaje {
     Personaje(Rejilla rejilla){
         this.rejilla=rejilla;
         RESOLUCION=5;
+        
+        if (this instanceof DatosComecocos) {
+            x=3;
+            y=1;
+        }
+        
     }
 
     public int getX() {

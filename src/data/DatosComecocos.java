@@ -18,6 +18,7 @@ public class DatosComecocos extends Personaje {
     @Override
     public void mover() {
         super.mover();
+        
     }
     
     

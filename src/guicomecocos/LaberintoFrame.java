@@ -132,7 +132,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
     
     public void dibujaPacman (java.awt.Graphics g) {
         
+        Personaje pacman = new DatosComecocos(laberinto);
         
+        g.setColor(Color.YELLOW);
+        g.fillArc(pacman.getX()*anchoCelda, pacman.getY()*anchoCelda, anchoCelda, anchoCelda, 45, 270);
         
     }
 
@@ -151,6 +154,7 @@ public class LaberintoFrame extends javax.swing.JPanel {
         }
         
         dibujaLaberinto(g);
+        dibujaPacman(g);
         
     }
 
