@@ -9,8 +9,8 @@ package data;
  *
  * @author alejandrocq
  */
-public class DatosComecocos extends Personaje{
-
+public class DatosComecocos extends Personaje {
+    
     public DatosComecocos(Rejilla rejilla) {
         super(rejilla);
     }

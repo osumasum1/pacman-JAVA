@@ -23,6 +23,7 @@ public class ComecocosFrame extends javax.swing.JFrame {
         initComponents();
         laberinto = new Rejilla();
         this.setTitle("Pacman");
+        areaPuntuacion.setText("0");
         
     }
 
@@ -36,6 +37,8 @@ public class ComecocosFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         laberintoFrame1 = new LaberintoFrame(this);
+        jLabel1 = new javax.swing.JLabel();
+        areaPuntuacion = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuJuego = new javax.swing.JMenu();
         juegoNuevo = new javax.swing.JMenuItem();
@@ -43,7 +46,12 @@ public class ComecocosFrame extends javax.swing.JFrame {
         juegoSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 800));
+        setPreferredSize(new java.awt.Dimension(900, 631));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         javax.swing.GroupLayout laberintoFrame1Layout = new javax.swing.GroupLayout(laberintoFrame1);
         laberintoFrame1.setLayout(laberintoFrame1Layout);
@@ -55,6 +63,17 @@ public class ComecocosFrame extends javax.swing.JFrame {
             laberintoFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 550, Short.MAX_VALUE)
         );
+
+        jLabel1.setText("Puntuación:");
+
+        areaPuntuacion.setEditable(false);
+        areaPuntuacion.setText("0");
+        areaPuntuacion.setToolTipText("");
+        areaPuntuacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                areaPuntuacionActionPerformed(evt);
+            }
+        });
 
         menuJuego.setText("Juego");
 
@@ -81,16 +100,27 @@ public class ComecocosFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
+                .addGap(30, 30, 30)
                 .addComponent(laberintoFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(384, Short.MAX_VALUE))
+                .addGap(79, 79, 79)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(areaPuntuacion, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(laberintoFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(laberintoFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(areaPuntuacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -99,6 +129,14 @@ public class ComecocosFrame extends javax.swing.JFrame {
     private void juegoSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_juegoSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_juegoSalirActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosing
+
+    private void areaPuntuacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaPuntuacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_areaPuntuacionActionPerformed
 
     
     public Rejilla getRejilla() {
@@ -142,6 +180,8 @@ public class ComecocosFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField areaPuntuacion;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem juegoNuevo;
     private javax.swing.JMenuItem juegoPausar;

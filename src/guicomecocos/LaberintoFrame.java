@@ -129,6 +129,12 @@ public class LaberintoFrame extends javax.swing.JPanel {
         }
         
     }
+    
+    public void dibujaPacman (java.awt.Graphics g) {
+        
+        
+        
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -136,8 +142,11 @@ public class LaberintoFrame extends javax.swing.JPanel {
         
         if (anchoCelda == -1) {
             
-            anchoCelda = Math.min(getWidth()/comecocosFrame.getRejilla().getAnchura(),(getHeight()-10)/comecocosFrame.getRejilla().getAltura());
-            g.fillRect(0, 0, getWidth(), getHeight());
+            try {
+                anchoCelda = Math.min(getWidth() / comecocosFrame.getRejilla().getAnchura(), (getHeight() - 10) / comecocosFrame.getRejilla().getAltura());
+                g.fillRect(0, 0, getWidth(), getHeight());
+            } catch (Exception e) {
+            }
             
         }
         

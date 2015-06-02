@@ -124,8 +124,8 @@ public class Rejilla {
             return false;
         }
         
-        if(siguiente!='.' && siguiente!='o' && siguiente!=' ')
-            return true;
+        if(siguiente!='.' && siguiente!='o' && siguiente!=' ') return true;
+        
         return false;
    }
    
