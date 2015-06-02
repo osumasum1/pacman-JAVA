@@ -78,7 +78,7 @@
   <SubComponents>
     <Container class="guicomecocos.LaberintoFrame" name="laberintoFrame1">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LaberintoFrame (this);"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new LaberintoFrame(this);"/>
       </AuxValues>
 
       <Layout>

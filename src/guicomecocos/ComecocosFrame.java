@@ -22,6 +22,7 @@ public class ComecocosFrame extends javax.swing.JFrame {
     public ComecocosFrame() {
         initComponents();
         laberinto = new Rejilla();
+        this.setTitle("Pacman");
         
     }
 
@@ -34,7 +35,7 @@ public class ComecocosFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        laberintoFrame1 = new LaberintoFrame (this);
+        laberintoFrame1 = new LaberintoFrame(this);
         jMenuBar1 = new javax.swing.JMenuBar();
         menuJuego = new javax.swing.JMenu();
         juegoNuevo = new javax.swing.JMenuItem();

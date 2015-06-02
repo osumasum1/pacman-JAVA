@@ -138,9 +138,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
             
             anchoCelda = Math.min(getWidth()/comecocosFrame.getRejilla().getAnchura(),(getHeight()-10)/comecocosFrame.getRejilla().getAltura());
             g.fillRect(0, 0, getWidth(), getHeight());
-            dibujaLaberinto(g);
             
         }
+        
+        dibujaLaberinto(g);
         
     }
 
