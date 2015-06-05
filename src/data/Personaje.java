@@ -100,9 +100,9 @@ public class Personaje {
         }
         
         if(x==0 && offsetx==0){
-            x=rejilla.getAnchura();
+            x=rejilla.getAnchura()-1;
         }
-        else if(x==rejilla.getAnchura() && offsetx==0)
+        else if(x==rejilla.getAnchura()-1 && offsetx==0)
             x=0;
     }
 }
