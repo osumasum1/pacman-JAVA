@@ -11,10 +11,10 @@ package data;
  */
 public class DatosComecocos extends Personaje {
     
-    public DatosComecocos(Rejilla rejilla) {
-        super(rejilla);
+    public DatosComecocos(Rejilla rejilla, int x, int y) {
+        super(rejilla, x, y);
     }
-
+    
     @Override
     public void mover() {
         super.mover();

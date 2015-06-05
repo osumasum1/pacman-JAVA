@@ -107,16 +107,16 @@ public class Rejilla {
         try{
             switch(direccion){
                 case ARRIBA:
-                    siguiente=laberinto[x][y-1];
+                    siguiente=laberinto[y-1][x];
                     break;
                 case ABAJO:
-                    siguiente=laberinto[x][y+1];
+                    siguiente=laberinto[y+1][x];
                     break;
                 case DERECHA:
-                    siguiente=laberinto[x+1][y];
+                    siguiente=laberinto[y][x+1];
                     break;
                 case IZQUIERDA:
-                    siguiente=laberinto[x-1][y];
+                    siguiente=laberinto[y][x-1];
                     break;
             }
         }
@@ -124,7 +124,8 @@ public class Rejilla {
             return false;
         }
         
-        if(siguiente!='.' && siguiente!='o' && siguiente!=' ') return true;
+        if(siguiente=='.' || siguiente=='o' || siguiente==' ') 
+            return true;
         
         return false;
    }

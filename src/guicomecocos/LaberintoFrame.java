@@ -8,6 +8,7 @@ package guicomecocos;
 import data.*;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -17,6 +18,8 @@ public class LaberintoFrame extends javax.swing.JPanel {
 
     private ComecocosFrame comecocosFrame;
     private Rejilla laberinto = new Rejilla();
+    private DatosComecocos pacman=new DatosComecocos(laberinto, 1, 1);
+    private Mueve movimiento=new Mueve(this, pacman, 0);
     private int anchoCelda = -1;
     
     /**
@@ -29,6 +32,7 @@ public class LaberintoFrame extends javax.swing.JPanel {
     public LaberintoFrame (ComecocosFrame c) {
         this();
         comecocosFrame = c;
+        movimiento.start();
     }
     
     public void dibujaLaberinto (java.awt.Graphics g) {
@@ -131,11 +135,9 @@ public class LaberintoFrame extends javax.swing.JPanel {
     }
     
     public void dibujaPacman (java.awt.Graphics g) {
-        
-        Personaje pacman = new DatosComecocos(laberinto);
-        
+        int xoffset = (getWidth()-laberinto.getAnchura()*anchoCelda)/2;
         g.setColor(Color.YELLOW);
-        g.fillArc(pacman.getX()*anchoCelda, pacman.getY()*anchoCelda, anchoCelda, anchoCelda, 45, 270);
+        g.fillArc(xoffset+pacman.getX()*anchoCelda, pacman.getY()*anchoCelda, anchoCelda, anchoCelda, 45, 270);
         
     }
 
@@ -155,7 +157,7 @@ public class LaberintoFrame extends javax.swing.JPanel {
         
         dibujaLaberinto(g);
         dibujaPacman(g);
-        
+
     }
 
     /**
@@ -168,6 +170,16 @@ public class LaberintoFrame extends javax.swing.JPanel {
     private void initComponents() {
 
         setPreferredSize(new java.awt.Dimension(550, 550));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LaberintoFrame.this.mouseEntered(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                controlTeclado(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -180,6 +192,27 @@ public class LaberintoFrame extends javax.swing.JPanel {
             .addGap(0, 550, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void controlTeclado(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_controlTeclado
+        switch (evt.getKeyCode()){
+            case KeyEvent.VK_UP:
+                movimiento.moverComecocos(Rejilla.ARRIBA);
+                break;
+            case KeyEvent.VK_DOWN:
+                movimiento.moverComecocos(Rejilla.ABAJO);
+                break;
+                case KeyEvent.VK_LEFT:
+                movimiento.moverComecocos(Rejilla.IZQUIERDA);
+                break;
+            case KeyEvent.VK_RIGHT:
+                movimiento.moverComecocos(Rejilla.DERECHA);
+                break;
+        }
+    }//GEN-LAST:event_controlTeclado
+
+    private void mouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseEntered
+        requestFocus();
+    }//GEN-LAST:event_mouseEntered
 
     
     

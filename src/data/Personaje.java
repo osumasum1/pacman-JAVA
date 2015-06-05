@@ -12,19 +12,15 @@ package data;
 public class Personaje {
     private int x, y;
     private int offsetx, offsety;
-    private final int RESOLUCION;
+    private final int MOVIMIENTOS_POR_CELDA;
     private int direccionActual=Rejilla.PARADO, direccionSiguiente=Rejilla.PARADO;
     private Rejilla rejilla;
     
-    Personaje(Rejilla rejilla){
+    Personaje(Rejilla rejilla, int x, int y){
         this.rejilla=rejilla;
-        RESOLUCION=5;
-        
-        if (this instanceof DatosComecocos) {
-            x=3;
-            y=1;
-        }
-        
+        this.x=x;
+        this.y=y;
+        MOVIMIENTOS_POR_CELDA=5;
     }
 
     public int getX() {
@@ -50,44 +46,63 @@ public class Personaje {
     
     
     public void mover(){
-        int horizontal=0;
-        int vertical=0;
+        
+        int signo=0;
+        boolean vertical=false;
+       
+        
+        if(offsetx==0 && offsety==0 && direccionActual!=direccionSiguiente)
+            if(rejilla.mover(x, y, direccionSiguiente))
+                direccionActual=direccionSiguiente;
+     
         switch(direccionActual){
             case Rejilla.IZQUIERDA:
-                horizontal=-1;
+                signo=-1;
                 break;
             case Rejilla.DERECHA:
-                horizontal=1;
+                signo=1;
                 break;
             case Rejilla.ARRIBA:
-                vertical=-1;
+                signo=-1;
+                vertical=true;
                 break;
             case Rejilla.ABAJO:
-                vertical=+1;
+                signo=1;
+                vertical=true;
                 break;
         }
+               
+        if(!vertical){
+            if(offsetx+signo==MOVIMIENTOS_POR_CELDA){
+                x++;
+                offsetx=0;
+            }
+            else if(offsetx+signo==-MOVIMIENTOS_POR_CELDA){
+                x--;
+                offsetx=0;
+            }
+            else if((offsetx+signo!=1 && offsetx+signo!=-1) || rejilla.mover(x, y, direccionActual)){
+                offsetx+=signo;
+            }
+        }
+        else {
+            if(offsety+signo==MOVIMIENTOS_POR_CELDA){
+                y++;
+                offsety=0;
+            }
+            else if(offsety+signo==-MOVIMIENTOS_POR_CELDA){
+                y--;
+                offsety=0;
+            }
+            else if((offsety+signo!=1 && offsety+signo!=-1) || rejilla.mover(x, y, direccionActual)){
+                offsety+=signo;
+            }
+        }
         
-        if(offsetx+horizontal==RESOLUCION){
-            x++;
-            offsetx=0;
+        if(x==0 && offsetx==0){
+            x=rejilla.getAnchura();
         }
-        else if(offsetx+horizontal==-RESOLUCION){
-            x--;
-            offsetx=0;
-        }
-        else if((offsetx+horizontal!=1 && offsetx+horizontal!=-1) || rejilla.mover(x, y, direccionActual)){
-            offsetx+=horizontal;
-        }
-        else if(offsety+vertical==RESOLUCION){
-            y++;
-            offsety=0;
-        }
-        else if(offsety+vertical==-RESOLUCION){
-            y--;
-            offsety=0;
-        }
-        else if((offsety+vertical!=1 && offsety+vertical!=-1) || rejilla.mover(x, y, direccionActual)){
-            offsety+=vertical;
-        }
+        else if(x==rejilla.getAnchura() && offsetx==0)
+            x=0;
     }
 }
