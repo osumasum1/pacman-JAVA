@@ -136,8 +136,15 @@ public class LaberintoFrame extends javax.swing.JPanel {
     
     public void dibujaPacman (java.awt.Graphics g) {
         int xoffset = (getWidth()-laberinto.getAnchura()*anchoCelda)/2;
+        int xoffsetmov = pacman.getOffsetx()*anchoCelda/pacman.getMovimientosCelda();
+        int yoffsetmov = pacman.getOffsety()*anchoCelda/pacman.getMovimientosCelda();
         g.setColor(Color.YELLOW);
-        g.fillArc(xoffset+pacman.getX()*anchoCelda, pacman.getY()*anchoCelda, anchoCelda, anchoCelda, 45, 270);
+        int direccionActual = pacman.getDireccion();
+        
+        if (direccionActual == Rejilla.DERECHA) g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, anchoCelda+2, anchoCelda+2, 45, (int) (315+45*Math.sin((2*Math.PI*pacman.getOffsetx())/pacman.getMovimientosCelda())));
+        if (direccionActual == Rejilla.IZQUIERDA) g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, anchoCelda+2, anchoCelda+2, 225, 270);
+        if (direccionActual == Rejilla.ARRIBA) g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, anchoCelda+2, anchoCelda+2, 135, 270);
+        if (direccionActual == Rejilla.ABAJO) g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, anchoCelda+2, anchoCelda+2, 315, 270);
         
     }
 

@@ -45,7 +45,7 @@ public class Rejilla {
         "3BBBBBBBBBBBBBBBBBBBBBBBBBB4"
     };
     
-    public static final int IZQUIERDA=0, DERECHA=1, ARRIBA=2, ABAJO=3, PARADO=4;
+    public static final int IZQUIERDA=0, DERECHA=1, ARRIBA=2, ABAJO=3;
     
     private char[][] laberinto;
     
@@ -124,8 +124,7 @@ public class Rejilla {
             return false;
         }
         
-        if(siguiente=='.' || siguiente=='o' || siguiente==' ') 
-            return true;
+        if(siguiente=='.' || siguiente=='o' || siguiente==' ') return true;
         
         return false;
    }

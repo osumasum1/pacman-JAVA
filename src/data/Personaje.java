@@ -13,7 +13,7 @@ public class Personaje {
     private int x, y;
     private int offsetx, offsety;
     private final int MOVIMIENTOS_POR_CELDA;
-    private int direccionActual=Rejilla.PARADO, direccionSiguiente=Rejilla.PARADO;
+    private int direccionActual=Rejilla.DERECHA, direccionSiguiente=Rejilla.DERECHA;
     private Rejilla rejilla;
     
     Personaje(Rejilla rejilla, int x, int y){
@@ -41,6 +41,14 @@ public class Personaje {
 
     public void setDireccion(int direccionSiguiente) {
         this.direccionSiguiente = direccionSiguiente;
+    }
+    
+    public int getDireccion () {
+        return direccionActual;
+    }
+    
+    public int getMovimientosCelda() {
+        return MOVIMIENTOS_POR_CELDA;
     }
     
     
