@@ -82,12 +82,12 @@ public class Rejilla {
     * @return 0 si no había coco, 1 si había un coco pequeño y 2 si habíaun coco grande.
     */
    public int comer(int fila, int columna){
-       if(laberinto[fila][columna]=='.'){
-           laberinto[fila][columna]=' ';
+       if(laberinto[columna][fila]=='.'){
+           laberinto[columna][fila]=' ';
            return 1;
        }
-       else if(laberinto[fila][columna]=='o'){
-           laberinto[fila][columna]=' ';
+       else if(laberinto[columna][fila]=='o'){
+           laberinto[columna][fila]=' ';
            return 2;
        }
        return 0;

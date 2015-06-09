@@ -141,10 +141,29 @@ public class LaberintoFrame extends javax.swing.JPanel {
         g.setColor(Color.YELLOW);
         int direccionActual = pacman.getDireccion();
         
-        if (direccionActual == Rejilla.DERECHA) g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, anchoCelda+2, anchoCelda+2, 45, (int) (315+45*Math.sin((2*Math.PI*pacman.getOffsetx())/pacman.getMovimientosCelda())));
-        if (direccionActual == Rejilla.IZQUIERDA) g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, anchoCelda+2, anchoCelda+2, 225, 270);
-        if (direccionActual == Rejilla.ARRIBA) g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, anchoCelda+2, anchoCelda+2, 135, 270);
-        if (direccionActual == Rejilla.ABAJO) g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, anchoCelda+2, anchoCelda+2, 315, 270);
+        if (direccionActual == Rejilla.DERECHA) 
+            g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, 
+                    anchoCelda+2, anchoCelda+2, 
+                    (int) (22-22*Math.sin((2*Math.PI*pacman.getOffsetx())/pacman.getMovimientosCelda())),
+                    (int) (315+45*Math.sin((2*Math.PI*pacman.getOffsetx())/pacman.getMovimientosCelda())));
+        
+        if (direccionActual == Rejilla.IZQUIERDA) 
+            g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, 
+                    anchoCelda+2, anchoCelda+2, 
+                    (int) (202-22*Math.sin((2*Math.PI*pacman.getOffsetx())/pacman.getMovimientosCelda())),
+                    (int) (315+45*Math.sin((2*Math.PI*pacman.getOffsetx())/pacman.getMovimientosCelda())));
+        
+        if (direccionActual == Rejilla.ARRIBA) 
+            g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, 
+                    anchoCelda+2, anchoCelda+2, 
+                    (int) (112-22*Math.sin((2*Math.PI*pacman.getOffsety())/pacman.getMovimientosCelda())),
+                    (int) (315+45*Math.sin((2*Math.PI*pacman.getOffsety())/pacman.getMovimientosCelda())));
+        
+        if (direccionActual == Rejilla.ABAJO) 
+            g.fillArc(xoffset+xoffsetmov+pacman.getX()*anchoCelda, yoffsetmov+pacman.getY()*anchoCelda, 
+                    anchoCelda+2, anchoCelda+2, 
+                    (int) (292-22*Math.sin((2*Math.PI*pacman.getOffsety())/pacman.getMovimientosCelda())),
+                    (int) (315+45*Math.sin((2*Math.PI*pacman.getOffsety())/pacman.getMovimientosCelda())));
         
     }
 

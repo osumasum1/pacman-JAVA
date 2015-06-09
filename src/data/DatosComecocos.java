@@ -18,7 +18,7 @@ public class DatosComecocos extends Personaje {
     @Override
     public void mover() {
         super.mover();
-        
+        int puntos=rejilla.comer(getX(), getY());
     }
     
     

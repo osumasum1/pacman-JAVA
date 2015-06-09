@@ -14,7 +14,7 @@ public class Personaje {
     private int offsetx, offsety;
     private final int MOVIMIENTOS_POR_CELDA;
     private int direccionActual=Rejilla.DERECHA, direccionSiguiente=Rejilla.DERECHA;
-    private Rejilla rejilla;
+    protected Rejilla rejilla;
     
     Personaje(Rejilla rejilla, int x, int y){
         this.rejilla=rejilla;
