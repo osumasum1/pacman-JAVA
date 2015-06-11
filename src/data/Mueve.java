@@ -5,6 +5,8 @@
  */
 package data;
 
+
+import guicomecocos.ComecocosFrame;
 import guicomecocos.LaberintoFrame;
 
 /**
@@ -14,16 +16,22 @@ import guicomecocos.LaberintoFrame;
 public class Mueve extends Thread{
     private DatosComecocos comecocos;
     private boolean finJuego=false, enPausa=false;
+    private ComecocosFrame frame;
     private LaberintoFrame panel;
+    private int puntuacion=0;
+    private int modoDios=0;
+
     
-    public Mueve(LaberintoFrame frame, DatosComecocos pacman, int nivel){
+    public Mueve(ComecocosFrame cf, LaberintoFrame lf, DatosComecocos pacman, int nivel){
         comecocos=pacman;
-        panel=frame;
+        frame=cf;
+        panel=lf;
     }
     
     public void moverComecocos(int direccion){
         comecocos.setDireccion(direccion);
     }
+   
     
     @Override
     public void run() {
@@ -33,7 +41,20 @@ public class Mueve extends Thread{
                     while(enPausa)
                         wait();
                 }
-                comecocos.mover();
+                int puntos=comecocos.mover();
+                puntuacion+=puntos;
+                frame.puntuacion(puntuacion);
+                if(puntos==10){
+                    modoDios=100;
+                }
+                
+                if(modoDios!=-1){
+                    if(modoDios==0)
+                        panel.modoDios(false);
+                    else if(modoDios==100)
+                        panel.modoDios(true);
+                     modoDios--;
+                }
                 panel.repaint();
                 Thread.sleep(50);
             }

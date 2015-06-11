@@ -88,7 +88,7 @@ public class Rejilla {
        }
        else if(laberinto[columna][fila]=='o'){
            laberinto[columna][fila]=' ';
-           return 2;
+           return 10;
        }
        return 0;
    }

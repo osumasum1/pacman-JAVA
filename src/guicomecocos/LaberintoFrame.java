@@ -18,9 +18,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
 
     private ComecocosFrame comecocosFrame;
     private Rejilla laberinto = new Rejilla();
-    private DatosComecocos pacman=new DatosComecocos(laberinto, 1, 1);
-    private Mueve movimiento=new Mueve(this, pacman, 0);
+    private DatosComecocos pacman;
+    private Mueve movimiento;
     private int anchoCelda = -1;
+    private boolean modoDios;
     
     /**
      * Creates new form Laberinto
@@ -32,7 +33,14 @@ public class LaberintoFrame extends javax.swing.JPanel {
     public LaberintoFrame (ComecocosFrame c) {
         this();
         comecocosFrame = c;
+        pacman=new DatosComecocos(laberinto,1, 1);
+        movimiento=new Mueve(c, this, pacman, 0);
         movimiento.start();
+    }
+    
+    
+    public void modoDios(boolean activar){
+        modoDios=activar;
     }
     
     public void dibujaLaberinto (java.awt.Graphics g) {
@@ -138,7 +146,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
         int xoffset = (getWidth()-laberinto.getAnchura()*anchoCelda)/2;
         int xoffsetmov = pacman.getOffsetx()*anchoCelda/pacman.getMovimientosCelda();
         int yoffsetmov = pacman.getOffsety()*anchoCelda/pacman.getMovimientosCelda();
-        g.setColor(Color.YELLOW);
+        if(modoDios)
+            g.setColor(new Color((int)(Math.random()*65000)));
+        else
+            g.setColor(Color.YELLOW);
         int direccionActual = pacman.getDireccion();
         
         if (direccionActual == Rejilla.DERECHA) 
@@ -170,19 +181,18 @@ public class LaberintoFrame extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
-        if (anchoCelda == -1) {
-            
-            try {
-                anchoCelda = Math.min(getWidth() / comecocosFrame.getRejilla().getAnchura(), (getHeight() - 10) / comecocosFrame.getRejilla().getAltura());
-                g.fillRect(0, 0, getWidth(), getHeight());
-            } catch (Exception e) {
+        try{
+            if (anchoCelda == -1) {
+                    anchoCelda = Math.min(getWidth() / comecocosFrame.getRejilla().getAnchura(), (getHeight() - 10) / comecocosFrame.getRejilla().getAltura());
+                    g.fillRect(0, 0, getWidth(), getHeight());
+
             }
-            
+
+            dibujaLaberinto(g);
+            dibujaPacman(g);
         }
-        
-        dibujaLaberinto(g);
-        dibujaPacman(g);
+        catch(NullPointerException ex){
+        }
 
     }
 

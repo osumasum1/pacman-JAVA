@@ -53,7 +53,7 @@ public class Personaje {
     
     
     
-    public void mover(){
+    public int mover(){
         
         int signo=0;
         boolean vertical=false;
@@ -112,5 +112,7 @@ public class Personaje {
         }
         else if(x==rejilla.getAnchura()-1 && offsetx==0)
             x=0;
+        
+        return 0;
     }
 }

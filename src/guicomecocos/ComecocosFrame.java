@@ -138,6 +138,10 @@ public class ComecocosFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_areaPuntuacionActionPerformed
 
+    public void puntuacion(int puntos){
+        if(areaPuntuacion!=null)
+            areaPuntuacion.setText(""+puntos);
+    }
     
     public Rejilla getRejilla() {
         return laberinto;

@@ -5,21 +5,25 @@
  */
 package data;
 
+import guicomecocos.ComecocosFrame;
+
 /**
  *
  * @author alejandrocq
  */
 public class DatosComecocos extends Personaje {
     
+
+    
     public DatosComecocos(Rejilla rejilla, int x, int y) {
         super(rejilla, x, y);
     }
     
     @Override
-    public void mover() {
+    public int mover() {
         super.mover();
         int puntos=rejilla.comer(getX(), getY());
+        return puntos;
     }
-    
     
 }
