@@ -15,6 +15,7 @@ import guicomecocos.LaberintoFrame;
  */
 public class Mueve extends Thread{
     private DatosComecocos comecocos;
+    private Fantasma[] fantasmas;
     private boolean finJuego=false, enPausa=false;
     private ComecocosFrame frame;
     private LaberintoFrame panel;
@@ -22,8 +23,9 @@ public class Mueve extends Thread{
     private int modoDios=0;
 
     
-    public Mueve(ComecocosFrame cf, LaberintoFrame lf, DatosComecocos pacman, int nivel){
+    public Mueve(ComecocosFrame cf, LaberintoFrame lf, DatosComecocos pacman, Fantasma[] fantasmas, int nivel){
         comecocos=pacman;
+        this.fantasmas=fantasmas;
         frame=cf;
         panel=lf;
     }
@@ -55,6 +57,10 @@ public class Mueve extends Thread{
                         panel.modoDios(true);
                      modoDios--;
                 }
+                
+                for(Fantasma fantasma:fantasmas)
+                    fantasma.mover();
+                
                 panel.repaint();
                 Thread.sleep(50);
             }

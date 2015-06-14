@@ -19,6 +19,7 @@ public class LaberintoFrame extends javax.swing.JPanel {
     private ComecocosFrame comecocosFrame;
     private Rejilla laberinto = new Rejilla();
     private DatosComecocos pacman;
+    private Fantasma[] fantasmas;
     private Mueve movimiento;
     private int anchoCelda = -1;
     private boolean modoDios;
@@ -34,7 +35,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
         this();
         comecocosFrame = c;
         pacman=new DatosComecocos(laberinto,1, 1);
-        movimiento=new Mueve(c, this, pacman, 0);
+        fantasmas=new Fantasma[4];
+        for(int i=0;i<fantasmas.length;i++)
+            fantasmas[i]=new Fantasma(laberinto, 11+i, 14);
+        movimiento=new Mueve(c, this, pacman, fantasmas, 0);
         movimiento.start();
     }
     
@@ -132,11 +136,6 @@ public class LaberintoFrame extends javax.swing.JPanel {
                     g.setColor(Color.YELLOW);
                     g.fillOval(xoffset+x*anchoCelda+anchoCelda/2, y*anchoCelda+anchoCelda/2, anchoCelda/3, anchoCelda/3);
                 }
-                
-                
-                
-                
-                
             }
         }
         
@@ -177,6 +176,17 @@ public class LaberintoFrame extends javax.swing.JPanel {
                     (int) (315+45*Math.sin((2*Math.PI*pacman.getOffsety())/pacman.getMovimientosCelda())));
         
     }
+    
+    public void dibujaFantasmas(Graphics g){
+        int xoffset = (getWidth()-laberinto.getAnchura()*anchoCelda)/2;
+        
+        for(Fantasma fantasma:fantasmas){
+            int xoffsetmov = fantasma.getOffsetx()*anchoCelda/fantasma.getMovimientosCelda();
+            int yoffsetmov = fantasma.getOffsety()*anchoCelda/fantasma.getMovimientosCelda();
+            g.fillRect(xoffset+xoffsetmov+fantasma.getX()*anchoCelda, yoffsetmov+fantasma.getY()*anchoCelda,
+                    anchoCelda, anchoCelda);
+        }
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -190,6 +200,7 @@ public class LaberintoFrame extends javax.swing.JPanel {
 
             dibujaLaberinto(g);
             dibujaPacman(g);
+            dibujaFantasmas(g);
         }
         catch(NullPointerException ex){
         }

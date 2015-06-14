@@ -45,7 +45,7 @@ public class Rejilla {
         "3BBBBBBBBBBBBBBBBBBBBBBBBBB4"
     };
     
-    public static final int IZQUIERDA=0, DERECHA=1, ARRIBA=2, ABAJO=3;
+    public static final int IZQUIERDA=0x1, DERECHA=0x10, ARRIBA=0x100, ABAJO=0x1000;
     
     private char[][] laberinto;
     
