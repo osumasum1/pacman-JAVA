@@ -36,8 +36,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
         comecocosFrame = c;
         pacman=new DatosComecocos(laberinto,1, 1);
         fantasmas=new Fantasma[4];
-        for(int i=0;i<fantasmas.length;i++)
+        for(int i=0;i<fantasmas.length;i++){
             fantasmas[i]=new Fantasma(laberinto, 11+i, 14);
+            fantasmas[i].setObjetivo(pacman);
+        }
         movimiento=new Mueve(c, this, pacman, fantasmas, 0);
         movimiento.start();
     }

@@ -21,9 +21,11 @@ public class Mueve extends Thread{
     private LaberintoFrame panel;
     private int puntuacion=0;
     private int modoDios=0;
+    private int periodo;
 
     
     public Mueve(ComecocosFrame cf, LaberintoFrame lf, DatosComecocos pacman, Fantasma[] fantasmas, int nivel){
+        periodo=50-nivel*10;
         comecocos=pacman;
         this.fantasmas=fantasmas;
         frame=cf;
@@ -62,7 +64,7 @@ public class Mueve extends Thread{
                     fantasma.mover();
                 
                 panel.repaint();
-                Thread.sleep(50);
+                Thread.sleep(periodo);
             }
         }
         catch(InterruptedException ex){

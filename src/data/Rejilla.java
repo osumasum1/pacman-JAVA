@@ -24,7 +24,7 @@ public class Rejilla {
         "3BBBB6.D3BB6 DI 5BB4I.5BBBB4",
         "     I.D1AA8 78 7AA2I.D     ",
         "     I.DI          DI.D     ",
-        "     I.DI 5B    B6 DI.D     ",
+        "     I.DI 5B____B6 DI.D     ",
         "AAAAA8.78 D      I 78.7AAAAA",
         "      .   D      I   .      ",
         "BBBBB6.56 D      I 56.5BBBBB",
@@ -124,7 +124,10 @@ public class Rejilla {
             return false;
         }
         
-        if(siguiente=='.' || siguiente=='o' || siguiente==' ') return true;
+        if(siguiente=='.' || siguiente=='o' || siguiente==' ') 
+            return true;
+        if(siguiente=='_' && direccion==ARRIBA)
+            return true;
         
         return false;
    }
