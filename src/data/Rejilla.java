@@ -24,10 +24,10 @@ public class Rejilla {
         "3BBBB6.D3BB6 DI 5BB4I.5BBBB4",
         "     I.D1AA8 78 7AA2I.D     ",
         "     I.DI          DI.D     ",
-        "     I.DI 5B    B6 DI.D     ",
+        "     I.DI 5B____B6 DI.D     ",
         "AAAAA8.78 D      I 78.7AAAAA",
-        "      .   D      I   .      ",
-        "BBBBB6.56 D      I 56.5BBBBB",
+        "      .   D ---- I   .      ",
+        "BBBBB6.56 D FFFF I 56.5BBBBB",
         "     I.DI 7AAAAAA8 DI.D     ",
         "     I.DI          DI.D     ",
         "     I.DI 5BBBBBB6 DI.D     ",
@@ -46,12 +46,14 @@ public class Rejilla {
     };
     
     public static final int IZQUIERDA=0x1, DERECHA=0x10, ARRIBA=0x100, ABAJO=0x1000;
+    public static final int PUNTOS_COCO=10, PUNTOS_COCO_GRANDE=50;
     
     private char[][] laberinto;
+    private int maxPuntos;
     
     public static final char RECTANGULOARRIBA='A', RECTANGULOABAJO='B', RECTANGULODERECHA='D', RECTANGULOIZQUIERDA='I', ESQUINAABAJODERECHA='5', ESQUINAARRIBADERECHA='7'
             , ESQUINAABAJOIZQUIERDA='6', ESQUINAARRIBAIZQUIERDA='8', ESQUINAARRIBADERECHAGRANDE='3', ESQUINAABAJODERECHAGRANDE='1', ESQUINAARRIBAIZQUIERDAGRANDE='4'
-            , ESQUINAABAJOIZQUIERDAGRANDE='2', PUNTOPEQUEÑO='.', PUNTOGRANDE='o';
+            , ESQUINAABAJOIZQUIERDAGRANDE='2', PUNTOPEQUEÑO='.', PUNTOGRANDE='o', MURO='_', FANTASMA='F',LIBRE=' ';
     
     
    /**
@@ -65,8 +67,21 @@ public class Rejilla {
        for(int i=0;i<mapa.length;i++){
            laberinto[i]=mapa[i].toCharArray();
        }
+       
+       for(char[] fila:laberinto){
+           for(char elemento:fila){
+               if(elemento==PUNTOPEQUEÑO)
+                   maxPuntos+=PUNTOS_COCO;
+               else if(elemento==PUNTOGRANDE)
+                   maxPuntos+=PUNTOS_COCO_GRANDE;
+           }
+       }
    }
-   
+
+    public int getMaxPuntos() {
+        return maxPuntos;
+    }
+     
    /**
     * Crea un array de caracteres que contiene el mapa del juego.
     * Utiliza el mapa por defecto.
@@ -82,13 +97,13 @@ public class Rejilla {
     * @return 0 si no había coco, 1 si había un coco pequeño y 2 si habíaun coco grande.
     */
    public int comer(int fila, int columna){
-       if(laberinto[columna][fila]=='.'){
-           laberinto[columna][fila]=' ';
-           return 1;
+       if(laberinto[columna][fila]==PUNTOPEQUEÑO){
+           laberinto[columna][fila]=LIBRE;
+           return PUNTOS_COCO;
        }
-       else if(laberinto[columna][fila]=='o'){
-           laberinto[columna][fila]=' ';
-           return 10;
+       else if(laberinto[columna][fila]==PUNTOGRANDE){
+           laberinto[columna][fila]=LIBRE;
+           return PUNTOS_COCO_GRANDE;
        }
        return 0;
    }
@@ -124,8 +139,10 @@ public class Rejilla {
             return false;
         }
         
-        if(siguiente=='.' || siguiente=='o' || siguiente==' ') return true;
-        
+        if(siguiente==PUNTOPEQUEÑO || siguiente==PUNTOGRANDE || siguiente==LIBRE) 
+            return true;
+        else if((siguiente==MURO && direccion==ARRIBA) || siguiente==FANTASMA && direccion==DERECHA)
+            return true;
         return false;
    }
    

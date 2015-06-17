@@ -15,14 +15,22 @@ public class Personaje {
     private final int MOVIMIENTOS_POR_CELDA;
     private int direccionActual=Rejilla.DERECHA, direccionSiguiente=Rejilla.DERECHA;
     protected Rejilla rejilla;
+    private int x0, y0;
     
-    Personaje(Rejilla rejilla, int x, int y){
+    Personaje(Rejilla rejilla, int x, int y, int movsPorCelda){
         this.rejilla=rejilla;
-        this.x=x;
-        this.y=y;
-        MOVIMIENTOS_POR_CELDA=5;
+        this.x=x0=x;
+        this.y=y0=y;
+        MOVIMIENTOS_POR_CELDA=movsPorCelda;
     }
-
+    
+    public void reiniciar(){
+        x=x0;
+        y=y0;
+        offsetx=offsety=0;
+        direccionActual=direccionSiguiente=Rejilla.DERECHA;
+    }
+    
     public int getX() {
         return x;
     }
@@ -50,8 +58,7 @@ public class Personaje {
     public int getMovimientosCelda() {
         return MOVIMIENTOS_POR_CELDA;
     }
-    
-    
+      
     
     public int mover(){
         

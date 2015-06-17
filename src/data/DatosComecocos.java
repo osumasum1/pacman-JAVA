@@ -15,8 +15,8 @@ public class DatosComecocos extends Personaje {
     
 
     
-    public DatosComecocos(Rejilla rejilla, int x, int y) {
-        super(rejilla, x, y);
+    public DatosComecocos(Rejilla rejilla, int x, int y, int movsPorCelda) {
+        super(rejilla, x, y, movsPorCelda);
     }
     
     @Override
