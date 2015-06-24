@@ -1,30 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data;
 
 /**
- *
- * @author Xismy
+ * Subclase de Personaje que representa un fantasma.
+ * @author Alejandro Castilla Quesada e Ismael Yeste Espín
  */
 public class Fantasma extends Personaje{
     
-    private DatosComecocos objetivo;
+    private DatosComecocos objetivo;    //Pacman
+    /**
+     * Resultado del método mover.
+     */
     public static final int CHOQUE_COMECOCOS=1;
     
-
+    /**
+     * Constructor.
+     * @param rejilla Objeto Rejilla que representa el laberinto.
+     * @param x Coordenada x de la posición inicial.
+     * @param y Coordenada y de la posición inicial.
+     * @param movsPorCelda  Número de movimientos necesarios para pasar de una celda a otra. 
+     * Cuanto mayor sea menor velocidad.
+     */
     public Fantasma(Rejilla rejilla, int x, int y, int movsPorCelda) {
         super(rejilla, x, y, movsPorCelda);
     }
     
+    /**
+     * Designa el objetivo (pacman) para que el fantasma lo persiga o huya de él.
+     * @param pacman Objeto de tipo DatosComecocos al que persigue el fantasma.
+     */
     public void setObjetivo(DatosComecocos pacman){
         objetivo=pacman;
     }
     
-
-
+    /**
+     * Control del movimiento del fantasma. Cada vez que el fantasma esta en el centro de 
+     * una celda (offsets=0) se calculan las posibles direcciones. Con una probabilidad de 
+     * 0.25 el fantasma eligirá el camino de forma aleatoria. Si no, se calcularán las distancias
+     * x e y entre el fantasma y el comecocos dando prioridad a las menores en cada eje y con un 
+     * 0.5 de probabilidad se establecerá prioridad para el eje vertical. Se establecerá la direccion 
+     * prioritaria dentro de las posibles.
+     * El fantasma nunca cambia de sentido.
+     * @param modoDios Si está activado las prioridades se asignan de forma inversa (el fantasma huye);
+     * @return Resultado del movimiento. Puede ser 0 o CHQUE_COMECOCOS.
+     */
     public int mover(boolean modoDios) {
         
         int dx=Math.abs((getX()-objetivo.getX())*getMovimientosCelda()+getOffsetx()-objetivo.getOffsetx());
@@ -106,6 +125,6 @@ public class Fantasma extends Personaje{
             setDireccion(direccion);
         }
         
-        return super.mover(); //To change body of generated methods, choose Tools | Templates.
+        return super.mover(); 
     }
 }

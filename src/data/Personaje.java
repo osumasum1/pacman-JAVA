@@ -1,22 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data;
 
 /**
- *
- * @author Xismy
+ * Cada uno de los personajes del juego.
+ * @author Alejandro Castilla Quesada e Ismael Yeste Espín
  */
 public class Personaje {
     private int x, y;
     private int offsetx, offsety;
     private final int MOVIMIENTOS_POR_CELDA;
     private int direccionActual=Rejilla.DERECHA, direccionSiguiente=Rejilla.DERECHA;
+    /**
+     * Laberinto.
+     */
     protected Rejilla rejilla;
     private int x0, y0;
     
+    /**
+     * Constructor.
+     * @param rejilla Objeto Rejilla que representa el laberinto.
+     * @param x Coordenada x de la posición inicial.
+     * @param y Coordenada y de la posición inicial.
+     * @param movsPorCelda  Número de movimientos necesarios para pasar de una celda a otra. 
+     * Cuanto mayor sea menor velocidad.
+     */
     Personaje(Rejilla rejilla, int x, int y, int movsPorCelda){
         this.rejilla=rejilla;
         this.x=x0=x;
@@ -24,6 +31,9 @@ public class Personaje {
         MOVIMIENTOS_POR_CELDA=movsPorCelda;
     }
     
+    /**
+     * Devuelve al personaje a su posición inicial.
+     */
     public void reiniciar(){
         x=x0;
         y=y0;
@@ -31,35 +41,70 @@ public class Personaje {
         direccionActual=direccionSiguiente=Rejilla.DERECHA;
     }
     
+    /**
+     * Coordenada x.
+     * @return Coordenada x de la posición.
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Coordenada y.
+     * @return Coordenada y de la posición. 
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Offset del eje y. El offset se usa para indicar la posición relativa a la celda actual.
+     * Entre dos celdas ha un offset de movsPorCelda indicado en el constructor.
+     * @return Componente x del offset.
+     */
     public int getOffsetx() {
         return offsetx;
     }
 
+    /**
+     * Offset del eje x. El offset se usa para indicar la posición relativa a la celda actual.
+     * Entre dos celdas ha un offset de movsPorCelda indicado en el constructor.
+     * @return Componente y del offset.
+     */
     public int getOffsety() {
         return offsety;
     }
 
+    /**
+     * Cambia la direccion siguiente. La direccion actual se actualiza en el metodo mover();
+     * @param direccionSiguiente Direccion siguiente. Constantes definidas en la clase Rejilla.
+     */
     public void setDireccion(int direccionSiguiente) {
         this.direccionSiguiente = direccionSiguiente;
     }
     
+    /**
+     * Dirección actual.
+     * @return Direccion actual
+     */
     public int getDireccion () {
         return direccionActual;
     }
     
+    /**
+     * Número de movimientos entre dos celdas.
+     * @return Número de movimientos entre dos celdas.
+     */
     public int getMovimientosCelda() {
         return MOVIMIENTOS_POR_CELDA;
     }
       
-    
+    /**
+     * Movimeinto del personaje. Cada vez que se llama incrementa el offset en la direccion 
+     * actual o cambia de celda. En caso de que la dirección siguiente sea distinta de la actual, si 
+     * es posible se actualiza.
+     * @return Resultado del movimiento. Solo tiene sentido si se sobreescribe el metodo. Por defecto devuelve 0.
+     */
     public int mover(){
         
         int signo=0;

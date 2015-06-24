@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data;
 
 
@@ -11,8 +7,8 @@ import guicomecocos.LaberintoFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author alejandrocq
+ * Hebra que implementa el movimiento del juego.
+ * @author Alejandro Castilla Quesada e Ismael Yeste Espín
  */
 public class Mueve extends Thread{
     private DatosComecocos comecocos;
@@ -25,7 +21,15 @@ public class Mueve extends Thread{
     private int maxPuntos;
     private int deltaT;
 
-    
+    /**
+     * Constructor. En el se calcula el parámetro deltaT que es el tiempo entre dos frames.
+     * @param cf Ventana de juego.
+     * @param lf Panel donde se dibuja el laberinto.
+     * @param pacman Personaje: Pacman.
+     * @param fantasmas Personajes: Fantasmas.
+     * @param maxPuntos Puntuación máxima. Si se alcanza se ha ganado.
+     * @param nivel Nivel del juego ente 0 y 10.
+     */
     public Mueve(ComecocosFrame cf, LaberintoFrame lf, DatosComecocos pacman, Fantasma[] fantasmas, 
             int maxPuntos, int nivel){
         comecocos=pacman;
@@ -36,18 +40,39 @@ public class Mueve extends Thread{
         deltaT=50-nivel*5;
     }
     
+    /**
+     * Cambia la dirección del movimiento del comecocos. El cambio no es instantaneo, solo se
+     * establece la dirección siguiente. El objeto apuntado por pacman es el encargado de actualizar.
+     * @param direccion Direccion siguiente.
+     */
     public void moverComecocos(int direccion){
         comecocos.setDireccion(direccion);
     }
     
+    /**
+     * Detiene el juego.
+     */
     public synchronized void pausa(){
         enPausa=true;
     }
     
+    /**
+     * Reanuda el juego.
+     */
     public synchronized void reanudar(){
         enPausa=false;
+        notifyAll();
     }
     
+    /**
+     * Llama a los metodos mover para cada personaje cada deltaT ms. Si pausa es true
+     * se detiene la hebra. Si el comecocos se come un coco aumenta su puntuación.
+     * Si el comecocos se come un coco grande, aumenta su puntuación y activa el modo
+     * Dios durante 10 s. Si el comecocos se come un fantasma en el modo Dios, el fantasma
+     * es devuelto a su posición inicial.Si se ha alcanzado la puntuación máxima se muestra un mensaje de
+     * victoria y termina la ejecución. Si un fantasma se come al comecocos se muestra un mensaje 
+     * de derrota y se detiene la ejecución.
+     */
     @Override
     public void run() {
         try{

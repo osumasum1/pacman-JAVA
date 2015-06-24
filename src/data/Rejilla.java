@@ -1,16 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package data;
 
 /**
- *
- * @author alejandrocq
+ * Contiene una matriz de caracteres que representa un laberinto.
+ * @author Alejandro Castilla Quesada e Ismael Yeste Espín
  */
 
 public class Rejilla {
+   
     private static final String REJILLA[]={
         "1AAAAAAAAAAAA21AAAAAAAAAAAA2",
         "I............DI............D",
@@ -45,15 +42,26 @@ public class Rejilla {
         "3BBBBBBBBBBBBBBBBBBBBBBBBBB4"
     };
     
+    /**
+     * Constantes de dirección.
+     */
     public static final int IZQUIERDA=0x1, DERECHA=0x10, ARRIBA=0x100, ABAJO=0x1000;
+    /**
+     * Constantes de puntuación.
+     */
     public static final int PUNTOS_COCO=10, PUNTOS_COCO_GRANDE=50;
+    /**
+     * Constantes para definir cada una de las celdas del mapa.
+     */
+    public static final char RECTANGULOARRIBA='A', RECTANGULOABAJO='B', RECTANGULODERECHA='D', RECTANGULOIZQUIERDA='I', ESQUINAABAJODERECHA='5', ESQUINAARRIBADERECHA='7'
+            , ESQUINAABAJOIZQUIERDA='6', ESQUINAARRIBAIZQUIERDA='8', ESQUINAARRIBADERECHAGRANDE='3', ESQUINAABAJODERECHAGRANDE='1', ESQUINAARRIBAIZQUIERDAGRANDE='4'
+            , ESQUINAABAJOIZQUIERDAGRANDE='2', PUNTOPEQUEÑO='.', PUNTOGRANDE='o', MURO='_', FANTASMA='F',LIBRE=' ';
+    
     
     private char[][] laberinto;
     private int maxPuntos;
     
-    public static final char RECTANGULOARRIBA='A', RECTANGULOABAJO='B', RECTANGULODERECHA='D', RECTANGULOIZQUIERDA='I', ESQUINAABAJODERECHA='5', ESQUINAARRIBADERECHA='7'
-            , ESQUINAABAJOIZQUIERDA='6', ESQUINAARRIBAIZQUIERDA='8', ESQUINAARRIBADERECHAGRANDE='3', ESQUINAABAJODERECHAGRANDE='1', ESQUINAARRIBAIZQUIERDAGRANDE='4'
-            , ESQUINAABAJOIZQUIERDAGRANDE='2', PUNTOPEQUEÑO='.', PUNTOGRANDE='o', MURO='_', FANTASMA='F',LIBRE=' ';
+    
     
     
    /**
@@ -77,7 +85,11 @@ public class Rejilla {
            }
        }
    }
-
+   
+   /**
+    * Se usa para comprbar que se ha ganado.
+    * @return Maxima puntuación obtenible.
+    */
     public int getMaxPuntos() {
         return maxPuntos;
     }
@@ -94,7 +106,7 @@ public class Rejilla {
     * Comer el coco de la celda actual.
     * @param fila Fila actual.
     * @param columna Columna actual.
-    * @return 0 si no había coco, 1 si había un coco pequeño y 2 si habíaun coco grande.
+    * @return 0 si no había coco, 1 si había un coco pequeño y 2 si había un coco grande.
     */
    public int comer(int fila, int columna){
        if(laberinto[columna][fila]==PUNTOPEQUEÑO){
@@ -158,7 +170,7 @@ public class Rejilla {
     
    
     /**
-     * 
+     * Altura en filas del laberinto.
      * @return Número de filas del mapa.
      */
    public int getAltura(){
@@ -166,7 +178,7 @@ public class Rejilla {
    }
    
    /**
-    * 
+    * Anchera en columnas del laberinto.
     * @return Número de columnas del mapa.
     */
    public int getAnchura(){
