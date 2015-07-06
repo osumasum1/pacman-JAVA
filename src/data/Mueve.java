@@ -49,6 +49,18 @@ public class Mueve extends Thread{
         comecocos.setDireccion(direccion);
     }
     
+    public synchronized void finalizar(){
+        finJuego=true;
+    }
+    
+    /**
+     * Estado del juego.
+     * @return true si el juego está en pausa.
+     */
+    public boolean enPausa(){
+        return enPausa;
+    }
+    
     /**
      * Detiene el juego.
      */

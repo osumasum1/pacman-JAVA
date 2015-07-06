@@ -39,6 +39,9 @@ public class LaberintoFrame extends javax.swing.JPanel {
     }
     
     public void reiniciar(){
+        if(movimiento!=null)
+            movimiento.finalizar();
+        laberinto=new Rejilla();
         pacman=new DatosComecocos(laberinto,1, 1, 5);
         fantasmas=new Fantasma[4];
         int fantasma=0;
@@ -51,6 +54,13 @@ public class LaberintoFrame extends javax.swing.JPanel {
         }
         movimiento=new Mueve(comecocosFrame, this, pacman, fantasmas, laberinto.getMaxPuntos(), 0);
         movimiento.start();
+    }
+    
+    public void pausa(){
+        if(movimiento.enPausa())
+            movimiento.reanudar();
+        else
+            movimiento.pausa();
     }
     
     public void modoDios(boolean activar){
@@ -201,11 +211,11 @@ public class LaberintoFrame extends javax.swing.JPanel {
             int point1y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda/2;
             int point2x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda;
             int point2y = yoffsetmov+(fantasmas[i].getY()+1)*anchoCelda;
-            int point3x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+(2/5)*anchoCelda;
+            int point3x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+2*anchoCelda/5;
             int point3y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda/2;
             int point4x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+anchoCelda/2;
             int point4y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda;
-            int point5x = xoffset+xoffsetmov+(fantasmas[i].getX()+1)*anchoCelda-(2/5)*anchoCelda;
+            int point5x = xoffset+xoffsetmov+(fantasmas[i].getX()+1)*anchoCelda-2*anchoCelda/5;
             int point5y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda/2;
             int point6x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+anchoCelda;
             int point6y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda;
@@ -215,7 +225,7 @@ public class LaberintoFrame extends javax.swing.JPanel {
             int[] xPoints = {point1x, point2x, point3x, point4x, point5x, point6x, point7x};
             int[] yPoints = {point1y, point2y, point3y, point4y, point5y, point6y, point7y};
             
-            g.fillPolygon(xPoints, yPoints, 7);
+            g.fillPolygon(xPoints, yPoints, 5);
             
             
             //g.fillRect(xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda, yoffsetmov+fantasmas[i].getY()*anchoCelda, anchoCelda, anchoCelda);
@@ -227,7 +237,7 @@ public class LaberintoFrame extends javax.swing.JPanel {
         super.paintComponent(g);
         try{
             if (anchoCelda == -1) {
-                    anchoCelda = Math.min(getWidth() / comecocosFrame.getRejilla().getAnchura(), (getHeight() - 10) / comecocosFrame.getRejilla().getAltura());
+                    anchoCelda = Math.min(getWidth() / laberinto.getAnchura(), (getHeight() - 10) / laberinto.getAltura());
                     g.fillRect(0, 0, getWidth(), getHeight());
 
             }
@@ -287,6 +297,12 @@ public class LaberintoFrame extends javax.swing.JPanel {
                 break;
             case KeyEvent.VK_RIGHT:
                 movimiento.moverComecocos(Rejilla.DERECHA);
+                break;
+            case KeyEvent.VK_SPACE:
+                if(movimiento.enPausa())
+                    movimiento.reanudar();
+                else
+                    movimiento.pausa();
                 break;
         }
     }//GEN-LAST:event_controlTeclado

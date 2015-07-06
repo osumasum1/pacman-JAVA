@@ -12,16 +12,12 @@ import data.*;
  * @author alejandrocq
  */
 public class ComecocosFrame extends javax.swing.JFrame {
-
-    private Rejilla laberinto;
-    private Mueve mueve;
     
     /**
      * Creates new form Comecocos
      */
     public ComecocosFrame() {
         initComponents();
-        laberinto = new Rejilla();
         this.setTitle("Pacman");
         areaPuntuacion.setText("0");
         
@@ -78,9 +74,19 @@ public class ComecocosFrame extends javax.swing.JFrame {
         menuJuego.setText("Juego");
 
         juegoNuevo.setText("Nuevo");
+        juegoNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                juegoNuevoActionPerformed(evt);
+            }
+        });
         menuJuego.add(juegoNuevo);
 
         juegoPausar.setText("Pausar");
+        juegoPausar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                juegoPausarActionPerformed(evt);
+            }
+        });
         menuJuego.add(juegoPausar);
 
         juegoSalir.setText("Salir");
@@ -138,14 +144,19 @@ public class ComecocosFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_areaPuntuacionActionPerformed
 
+    private void juegoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_juegoNuevoActionPerformed
+        laberintoFrame1.reiniciar();
+    }//GEN-LAST:event_juegoNuevoActionPerformed
+
+    private void juegoPausarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_juegoPausarActionPerformed
+        laberintoFrame1.pausa();
+    }//GEN-LAST:event_juegoPausarActionPerformed
+
     public void puntuacion(int puntos){
         if(areaPuntuacion!=null)
             areaPuntuacion.setText(""+puntos);
     }
     
-    public Rejilla getRejilla() {
-        return laberinto;
-    }
     
     /**
      * @param args the command line arguments
