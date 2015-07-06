@@ -203,32 +203,45 @@ public class LaberintoFrame extends javax.swing.JPanel {
         for(int i=0 ; i<fantasmas.length ; i++){
             int xoffsetmov = fantasmas[i].getOffsetx()*anchoCelda/fantasmas[i].getMovimientosCelda();
             int yoffsetmov = fantasmas[i].getOffsety()*anchoCelda/fantasmas[i].getMovimientosCelda();
+            if(modoDios)
+            g.setColor(new Color((int)(Math.random()*65000)));
+            else
             g.setColor(colorFantasmas[i]);
+            
             //Head
             g.fillArc(xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda, yoffsetmov+fantasmas[i].getY()*anchoCelda, anchoCelda, anchoCelda, 0, 180);
             //Legs (poligon)
             int point1x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda; 
             int point1y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda/2;
             int point2x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda;
-            int point2y = yoffsetmov+(fantasmas[i].getY()+1)*anchoCelda;
-            int point3x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+2*anchoCelda/5;
-            int point3y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda/2;
+            int point2y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda;
+            int point3x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+(2*anchoCelda/5);
+            int point3y = yoffsetmov+fantasmas[i].getY()*anchoCelda+(4*anchoCelda/5);
             int point4x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+anchoCelda/2;
             int point4y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda;
-            int point5x = xoffset+xoffsetmov+(fantasmas[i].getX()+1)*anchoCelda-2*anchoCelda/5;
-            int point5y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda/2;
+            int point5x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+(4*anchoCelda/5);
+            int point5y = yoffsetmov+fantasmas[i].getY()*anchoCelda+(4*anchoCelda/5);
             int point6x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+anchoCelda;
             int point6y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda;
-            int point7x = xoffset+xoffsetmov+(fantasmas[i].getX()+1)*anchoCelda;
+            int point7x = xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+anchoCelda;
             int point7y = yoffsetmov+fantasmas[i].getY()*anchoCelda+anchoCelda/2;
             
             int[] xPoints = {point1x, point2x, point3x, point4x, point5x, point6x, point7x};
             int[] yPoints = {point1y, point2y, point3y, point4y, point5y, point6y, point7y};
             
-            g.fillPolygon(xPoints, yPoints, 5);
+            g.fillPolygon(xPoints, yPoints, 7);
+            
+            //Eyes
+            
+            g.setColor(Color.WHITE);
+            g.fillOval(xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+(2*anchoCelda/8), yoffsetmov+fantasmas[i].getY()*anchoCelda+(2*anchoCelda/8), anchoCelda/4, anchoCelda/4);
+            g.fillOval(xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+(5*anchoCelda/8), yoffsetmov+fantasmas[i].getY()*anchoCelda+(2*anchoCelda/8), anchoCelda/4, anchoCelda/4);
+            g.setColor(Color.BLACK);
+            g.fillOval(xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+(2*anchoCelda/8)+(2*anchoCelda/16), yoffsetmov+fantasmas[i].getY()*anchoCelda+(2*anchoCelda/8)+(2*anchoCelda/24), anchoCelda/6, anchoCelda/6);
+            g.fillOval(xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda+(5*anchoCelda/8)+(5*anchoCelda/32), yoffsetmov+fantasmas[i].getY()*anchoCelda+(2*anchoCelda/8)+(2*anchoCelda/24), anchoCelda/6, anchoCelda/6);
             
             
-            //g.fillRect(xoffset+xoffsetmov+fantasmas[i].getX()*anchoCelda, yoffsetmov+fantasmas[i].getY()*anchoCelda, anchoCelda, anchoCelda);
+            
         }
     }
 
