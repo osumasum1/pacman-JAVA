@@ -11,8 +11,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 /**
- *
- * @author alejandrocq
+ * Clase que contiene todos los métodos necesarios para dibujar cada uno de los elementos del juego.
  */
 public class LaberintoFrame extends javax.swing.JPanel {
 
@@ -26,17 +25,26 @@ public class LaberintoFrame extends javax.swing.JPanel {
     private boolean modoDios;
     
     /**
-     * Creates new form Laberinto
+     * Constructor de la clase que inicializa los elementos de la misma.
      */
     public LaberintoFrame() {
         initComponents();
     }
+    
+    /**
+     * Constructor que llama al constructor por defecto de la clase, obtiene el objeto de la clase ComecocosFrame y reinicia las hebras.
+     * @param c Objeto de la clase ComecocosFrame que permite interactuar con la ventana del juego.
+     */
     
     public LaberintoFrame (ComecocosFrame c) {
         this();
         comecocosFrame = c;
         reiniciar();
     }
+    
+    /**
+     * Método que se encarga de reiniciar todos los parámetros del juego para así comenzar una nueva partida.
+     */
     
     public void reiniciar(){
         if(movimiento!=null)
@@ -56,6 +64,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
         movimiento.start();
     }
     
+    /**
+     * Método que pone en pausa o reanuda el juego. Se puede llamar desde el menú.
+     */
+    
     public void pausa(){
         if(movimiento.enPausa())
             movimiento.reanudar();
@@ -63,9 +75,19 @@ public class LaberintoFrame extends javax.swing.JPanel {
             movimiento.pausa();
     }
     
+    /**
+     * Método que activa o desactiva el modo Dios, en el cual pacman puede comerse a los fantasmas.
+     * @param activar Variable booleana que indica si debe activarse el modo Dios o no.
+     */
+    
     public void modoDios(boolean activar){
         modoDios=activar;
     }
+    
+    /**
+     * Método que se encarga de dibujar el laberinto que debe recorrer Pacman y los fantasmas.
+     * @param g Objeto de la clae java.awt.Graphics que permite dibujar cada uno de los elementos del juego.
+     */
     
     public void dibujaLaberinto (java.awt.Graphics g) {
         
@@ -161,6 +183,11 @@ public class LaberintoFrame extends javax.swing.JPanel {
         
     }
     
+    /**
+     * Método que se encarga de dibujar a Pacman.
+     * @param g Objeto de la clae java.awt.Graphics que permite dibujar cada uno de los elementos del juego.
+     */
+    
     public void dibujaPacman (java.awt.Graphics g) {
         int xoffset = (getWidth()-laberinto.getAnchura()*anchoCelda)/2;
         int xoffsetmov = pacman.getOffsetx()*anchoCelda/pacman.getMovimientosCelda();
@@ -196,6 +223,11 @@ public class LaberintoFrame extends javax.swing.JPanel {
                     (int) (315+45*Math.sin((2*Math.PI*pacman.getOffsety())/pacman.getMovimientosCelda())));
         
     }
+    
+    /**
+     * Método que se encarga de dibujar a cada uno de los fantasmas.
+     * @param g Objeto de la clae java.awt.Graphics que permite dibujar cada uno de los elementos del juego.
+     */
     
     public void dibujaFantasmas(Graphics g){
         int xoffset = (getWidth()-laberinto.getAnchura()*anchoCelda)/2;
@@ -245,6 +277,11 @@ public class LaberintoFrame extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Método que inicializa el objeto g y la variable anchoCelda para comenzar a dibujar los elementos necesarios del juego.
+     * @param g Objeto de la clae java.awt.Graphics que permite dibujar cada uno de los elementos del juego.
+     */
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -296,7 +333,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
             .addGap(0, 550, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Método para escuchar las pulsaciones de teclado para mover a Pacman.
+     * @param evt Objeto de la clase java.awt.event.KeyEvent necesario para trabajar con las diferentes teclas.
+     */
     private void controlTeclado(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_controlTeclado
         switch (evt.getKeyCode()){
             case KeyEvent.VK_UP:
@@ -319,7 +359,10 @@ public class LaberintoFrame extends javax.swing.JPanel {
                 break;
         }
     }//GEN-LAST:event_controlTeclado
-
+    /**
+     * Método que activa el focus en la ventana de Pacman si el mouse se sitúa encima de esta.
+     * @param evt Objeto de la clase java.awt.event.MouseEvent necesario para este método.
+     */
     private void mouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseEntered
         requestFocus();
     }//GEN-LAST:event_mouseEntered

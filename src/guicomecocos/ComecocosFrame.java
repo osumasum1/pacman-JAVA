@@ -14,7 +14,7 @@ import data.*;
 public class ComecocosFrame extends javax.swing.JFrame {
     
     /**
-     * Creates new form Comecocos
+     * Inicializa la ventana del juego, establece el título de la misma como "Pacman" y inicializa el contador de puntuación a cero.
      */
     public ComecocosFrame() {
         initComponents();
@@ -131,27 +131,47 @@ public class ComecocosFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Método que cierra el programa cuando se hace clic en la opción "Salir" del menú Juego.
+     * @param evt Objeto de la clase java.awt.event.ActionEvent.
+     */
     private void juegoSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_juegoSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_juegoSalirActionPerformed
-
+    /**
+     * Método que cierra el programa cuando se hace clic en el botón de cerrar ventana.
+     * @param evt Objeto de la clase java.awt.event.WindowEvent.
+     */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         System.exit(0);
     }//GEN-LAST:event_formWindowClosing
-
+    /**
+     * Este método no realiza ninguna acción. Fue creado automáticamente por Netbeans.
+     * @param evt Objeto de la clase java.awt.event.ActionEvent.
+     */
     private void areaPuntuacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaPuntuacionActionPerformed
-        // TODO add your handling code here:
+        // Sin acciones.
     }//GEN-LAST:event_areaPuntuacionActionPerformed
-
+    /**
+     * Método que llama al método reiniciar() de la clase LaberintoFrame cuando se hace clic en la opción "Nuevo" del menú Juego.
+     * @param evt Objeto de la clase java.awt.event.ActionEvent.
+     */
     private void juegoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_juegoNuevoActionPerformed
         laberintoFrame1.reiniciar();
     }//GEN-LAST:event_juegoNuevoActionPerformed
-
+    /**
+     * Método que llama al método pausa() de la clase LaberintoFrame cuando se hace clic en la opción "Pausa" del menú Juego.
+     * @param evt Objeto de la clase java.awt.event.ActionEvent.
+     */
     private void juegoPausarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_juegoPausarActionPerformed
         laberintoFrame1.pausa();
     }//GEN-LAST:event_juegoPausarActionPerformed
 
+    
+    /**
+     * Se encarga de actualizar la puntuación en el elemento areaPuntuacion.
+     * @param puntos Puntos a sumar al total.
+     */
     public void puntuacion(int puntos){
         if(areaPuntuacion!=null)
             areaPuntuacion.setText(""+puntos);
@@ -159,6 +179,7 @@ public class ComecocosFrame extends javax.swing.JFrame {
     
     
     /**
+     * Método main de la clase ComecocosFrame.
      * @param args the command line arguments
      */
     public static void main(String args[]) {
