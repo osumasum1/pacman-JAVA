@@ -8,8 +8,7 @@ package guicomecocos;
 import data.*;
 
 /**
- *
- * @author alejandrocq
+ * Clase que contiene la ventana principal del juego.
  */
 public class ComecocosFrame extends javax.swing.JFrame {
     
