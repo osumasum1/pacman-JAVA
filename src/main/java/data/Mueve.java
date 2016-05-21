@@ -4,6 +4,7 @@ package data;
 
 import guicomecocos.ComecocosFrame;
 import guicomecocos.LaberintoFrame;
+import guicomecocos.LaberintoFrame.Modo;
 import javax.swing.JOptionPane;
 
 /**
@@ -103,9 +104,9 @@ public class Mueve extends Thread{
                 
                 if(modoDios!=-1){
                     if(modoDios==0)
-                        panel.modoDios(false);
+                        panel.modo(Modo.NORMAL);
                     else if(modoDios==10000/deltaT)
-                        panel.modoDios(true);
+                        panel.modo(Modo.DIOS);
                      modoDios--;
                 }
                 
