@@ -1,5 +1,5 @@
 
-package data;
+package pacman.shared;
 
 /**
  * Subclase de Personaje que representa un fantasma.

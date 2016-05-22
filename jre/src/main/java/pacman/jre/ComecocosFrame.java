@@ -1,4 +1,4 @@
-package guicomecocos;
+package pacman.jre;
 
 import static java.awt.EventQueue.invokeLater;
 

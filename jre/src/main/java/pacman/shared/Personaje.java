@@ -1,5 +1,5 @@
 
-package data;
+package pacman.shared;
 
 /**
  * Cada uno de los personajes del juego.

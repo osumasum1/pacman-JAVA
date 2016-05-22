@@ -1,5 +1,5 @@
 
-package data;
+package pacman.shared;
 
 /**
  * Contiene una matriz de caracteres que representa un laberinto.
