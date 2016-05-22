@@ -1,12 +1,12 @@
-package guicomecocos;
+package pacman.jre;
 
-import static guicomecocos.LaberintoFrame.Modo.DIOS;
+import static pacman.jre.LaberintoFrame.Modo.DIOS;
 import static java.lang.Math.sin;
 
-import data.DatosComecocos;
-import data.Fantasma;
-import data.Mueve;
-import data.Rejilla;
+import pacman.shared.DatosComecocos;
+import pacman.shared.Fantasma;
+import pacman.shared.Mueve;
+import pacman.shared.Rejilla;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;

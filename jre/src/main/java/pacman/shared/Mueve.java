@@ -1,10 +1,10 @@
 
-package data;
+package pacman.shared;
 
 
-import guicomecocos.ComecocosFrame;
-import guicomecocos.LaberintoFrame;
-import guicomecocos.LaberintoFrame.Modo;
+import pacman.jre.ComecocosFrame;
+import pacman.jre.LaberintoFrame;
+import pacman.jre.LaberintoFrame.Modo;
 import javax.swing.JOptionPane;
 
 /**
