@@ -39,23 +39,23 @@ public class Grid {
     public static final int LEFT = 0x1, RIGHT = 0x10, UP = 0x100, DOWN = 0x1000;
     public static final int PELLET_POINTS = 10, POWER_PELLET_POINTS = 50;
     public static final char
-            RECTANGULOARRIBA = 'A',
-            RECTANGULOABAJO = 'B',
-            RECTANGULODERECHA = 'D',
-            RECTANGULOIZQUIERDA = 'I',
-            ESQUINAABAJODERECHA = '5',
-            ESQUINAARRIBADERECHA = '7',
-            ESQUINAABAJOIZQUIERDA = '6',
-            ESQUINAARRIBAIZQUIERDA = '8',
-            ESQUINAARRIBADERECHAGRANDE = '3',
-            ESQUINAABAJODERECHAGRANDE = '1',
-            ESQUINAARRIBAIZQUIERDAGRANDE = '4',
-            ESQUINAABAJOIZQUIERDAGRANDE = '2',
-            PUNTOPEQUEÑO = '.',
-            PUNTOGRANDE = 'o',
-            MURO = '_',
-            FANTASMA = 'F',
-            LIBRE = ' ';
+            RECTANGLE_UP = 'A',
+            RECTANGLE_DOWN = 'B',
+            RECTANGLE_RIGHT = 'D',
+            RECTANGLE_LEFT = 'I',
+            BOTTOM_RIGHT_CORNER = '5',
+            UPPER_RIGHT_CORNER = '7',
+            BOTTOM_LEFT_CORNER = '6',
+            UPPER_LEFT_CORNER = '8',
+            UPPER_RIGHT_BIG_CORNER = '3',
+            BOTTOM_RIGHT_BIG_CORNER = '1',
+            UPPER_LEFT_BIG_CORNER = '4',
+            BOTTOM_LEFT_BIG_CORNER = '2',
+            SMALL_DOT = '.',
+            BIG_DOT = 'o',
+            WALL = '_',
+            GHOST = 'F',
+            FREE = ' ';
 
     public char[][] maze;
     public int maxScore;
@@ -69,19 +69,19 @@ public class Grid {
 
         for (char[] y : maze) {
             for (char x : y) {
-                if (x == PUNTOPEQUEÑO) maxScore += PELLET_POINTS;
-                else if (x == PUNTOGRANDE) maxScore += POWER_PELLET_POINTS;
+                if (x == SMALL_DOT) maxScore += PELLET_POINTS;
+                else if (x == BIG_DOT) maxScore += POWER_PELLET_POINTS;
             }
         }
     }
 
     /** Comer el coco de la celda actual. Devuelve el numero de puntos si come coco, sino 0. */
     public int eat(int x, int y) {
-        if (maze[y][x] == PUNTOPEQUEÑO) {
-            maze[y][x] = LIBRE;
+        if (maze[y][x] == SMALL_DOT) {
+            maze[y][x] = FREE;
             return PELLET_POINTS;
-        } else if (maze[y][x] == PUNTOGRANDE) {
-            maze[y][x] = LIBRE;
+        } else if (maze[y][x] == BIG_DOT) {
+            maze[y][x] = FREE;
             return POWER_PELLET_POINTS;
         } else {
             return 0;
@@ -102,8 +102,8 @@ public class Grid {
             return false;
         }
 
-        if (next == PUNTOPEQUEÑO || next == PUNTOGRANDE || next == LIBRE) return true;
-        else if ((next == MURO && direction == UP) || next == FANTASMA && direction == RIGHT) return true;
+        if (next == SMALL_DOT || next == BIG_DOT || next == FREE) return true;
+        else if ((next == WALL && direction == UP) || next == GHOST && direction == RIGHT) return true;
         return false;
     }
 }

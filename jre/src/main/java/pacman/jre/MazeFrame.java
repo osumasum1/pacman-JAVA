@@ -1,20 +1,20 @@
 package pacman.jre;
 
-import static java.lang.Math.sin;
-import static pacman.jre.MazeFrame.Mode.GOD;
+import pacman.shared.Ghost;
+import pacman.shared.Grid;
+import pacman.shared.MainLoop;
+import pacman.shared.PacMan;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JPanel;
-import pacman.shared.Ghost;
-import pacman.shared.Grid;
-import pacman.shared.MainLoop;
-import pacman.shared.PacMan;
+
+import static java.lang.Math.sin;
+import static pacman.jre.MazeFrame.Mode.GOD;
 
 public class MazeFrame extends JPanel {
     private static final Logger log = Logger.getLogger(MazeFrame.class.getName());
@@ -64,7 +64,7 @@ public class MazeFrame extends JPanel {
         int cnt = 0;
         for (int i = 0; i < grid.maze[0].length; i++) {
             for (int j = 0; j < grid.maze.length; j++)
-                if (grid.maze[j][i] == Grid.FANTASMA) {
+                if (grid.maze[j][i] == Grid.GHOST) {
                     ghosts[cnt] = new Ghost(grid, i, j, 8);
                     Ghost ghost = ghosts[cnt++];
                     ghost.target = data;
@@ -96,49 +96,49 @@ public class MazeFrame extends JPanel {
         for (x = 0; x < grid.maze[0].length; x++) {
             for (y = 0; y < grid.maze.length; y++) {
                 switch (grid.maze[y][x]) {
-                    case Grid.RECTANGULOARRIBA:
+                    case Grid.RECTANGLE_UP:
                         g.setColor(Color.BLUE);
                         g.fillRect(ϕ + x * cw, y * cw, cw, cw / 2);
                         break;
-                    case Grid.RECTANGULOABAJO:
+                    case Grid.RECTANGLE_DOWN:
                         g.setColor(Color.BLUE);
                         g.fillRect(ϕ + x * cw, y * cw + cw / 2, cw, cw / 2);
                         break;
-                    case Grid.RECTANGULODERECHA:
+                    case Grid.RECTANGLE_RIGHT:
                         g.setColor(Color.BLUE);
                         g.fillRect(ϕ + x * cw + cw / 2, y * cw, cw / 2, cw);
                         break;
-                    case Grid.RECTANGULOIZQUIERDA:
+                    case Grid.RECTANGLE_LEFT:
                         g.setColor(Color.BLUE);
                         g.fillRect(ϕ + x * cw, y * cw, cw / 2, cw);
                         break;
-                    case Grid.ESQUINAABAJODERECHA:
+                    case Grid.BOTTOM_RIGHT_CORNER:
                         g.setColor(Color.BLUE);
                         g.fillPolygon(
                                 new int[] { ϕ + (x + 1) * cw, ϕ + (x * cw + cw / 2), ϕ + (x + 1) * cw },
                                 new int[] { (y + 1) * cw, (y + 1) * cw, y * cw + cw / 2 },
                                 3);
                         break;
-                    case Grid.ESQUINAABAJOIZQUIERDA:
+                    case Grid.BOTTOM_LEFT_CORNER:
                         g.setColor(Color.BLUE);
                         g.fillPolygon(
                                 new int[] { ϕ + x * cw, ϕ + x * cw, ϕ + (x * cw + cw / 2) },
                                 new int[] { (y + 1) * cw, y * cw + cw / 2, (y + 1) * cw },
                                 3);
                         break;
-                    case Grid.ESQUINAARRIBAIZQUIERDA:
+                    case Grid.UPPER_LEFT_CORNER:
                         g.setColor(Color.BLUE);
                         g.fillPolygon(
                                 new int[] { ϕ + x * cw, ϕ + x * cw, ϕ + (x * cw + cw / 2) },
                                 new int[] { y * cw, y * cw + cw / 2, y * cw }, 3);
                         break;
-                    case Grid.ESQUINAARRIBADERECHA:
+                    case Grid.UPPER_RIGHT_CORNER:
                         g.setColor(Color.BLUE);
                         g.fillPolygon(
                                 new int[] { ϕ + (x * cw + cw / 2), ϕ + (x + 1) * cw, ϕ + (x + 1) * cw },
                                 new int[] { y * cw, y * cw, y * cw + cw / 2 }, 3);
                         break;
-                    case Grid.ESQUINAABAJOIZQUIERDAGRANDE:
+                    case Grid.BOTTOM_LEFT_BIG_CORNER:
                         g.setColor(Color.BLUE);
                         g.fillRect(ϕ + x * cw, y * cw, cw, cw);
                         g.setColor(Color.BLACK);
@@ -147,7 +147,7 @@ public class MazeFrame extends JPanel {
                                 new int[] { (y + 1) * cw, y * cw + cw / 2, (y + 1) * cw },
                                 3);
                         break;
-                    case Grid.ESQUINAABAJODERECHAGRANDE:
+                    case Grid.BOTTOM_RIGHT_BIG_CORNER:
                         g.setColor(Color.BLUE);
                         g.fillRect(ϕ + x * cw, y * cw, cw, cw);
                         g.setColor(Color.BLACK);
@@ -156,7 +156,7 @@ public class MazeFrame extends JPanel {
                                 new int[] { (y + 1) * cw, (y + 1) * cw, y * cw + cw / 2 },
                                 3);
                         break;
-                    case Grid.ESQUINAARRIBADERECHAGRANDE:
+                    case Grid.UPPER_RIGHT_BIG_CORNER:
                         g.setColor(Color.BLUE);
                         g.fillRect(ϕ + x * cw, y * cw, cw, cw);
                         g.setColor(Color.BLACK);
@@ -164,7 +164,7 @@ public class MazeFrame extends JPanel {
                                 new int[] { ϕ + (x * cw + cw / 2), ϕ + (x + 1) * cw, ϕ + (x + 1) * cw },
                                 new int[] { y * cw, y * cw, y * cw + cw / 2 }, 3);
                         break;
-                    case Grid.ESQUINAARRIBAIZQUIERDAGRANDE:
+                    case Grid.UPPER_LEFT_BIG_CORNER:
                         g.setColor(Color.BLUE);
                         g.fillRect(ϕ + x * cw, y * cw, cw, cw);
                         g.setColor(Color.BLACK);
@@ -172,11 +172,11 @@ public class MazeFrame extends JPanel {
                                 new int[] { ϕ + x * cw, ϕ + x * cw, ϕ + (x * cw + cw / 2) },
                                 new int[] { y * cw, y * cw + cw / 2, y * cw }, 3);
                         break;
-                    case Grid.PUNTOPEQUEÑO:
+                    case Grid.SMALL_DOT:
                         g.setColor(Color.YELLOW);
                         g.fillOval(ϕ + x * cw + cw / 2, y * cw + cw / 2, cw / 5, cw / 5);
                         break;
-                    case Grid.PUNTOGRANDE:
+                    case Grid.BIG_DOT:
                         g.setColor(Color.YELLOW);
                         g.fillOval(ϕ + x * cw + cw / 2, y * cw + cw / 2, cw / 3, cw / 3);
                         break;
