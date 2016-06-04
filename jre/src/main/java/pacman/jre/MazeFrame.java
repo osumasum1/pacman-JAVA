@@ -51,6 +51,7 @@ public class MazeFrame extends JPanel {
 
         restartGame();
     }
+
     public void togglePause() {
         if (loop.isPaused()) loop.resumeGame();
         else loop.pauseGame();
