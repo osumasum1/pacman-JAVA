@@ -1,9 +1,10 @@
 package pacman.shared;
 
-import javax.swing.JOptionPane;
 import pacman.jre.GameFrame;
 import pacman.jre.MazeFrame;
 import pacman.jre.MazeFrame.Mode;
+
+import javax.swing.*;
 
 public class MainLoop extends Thread {
     public PacMan pacMan;
@@ -17,11 +18,11 @@ public class MainLoop extends Thread {
     int maxScore;
     int Δ;
 
-    public MainLoop(GameFrame cf, MazeFrame lf, PacMan pacMan, Ghost[] ghosts, int maxScore, int level) {
+    public MainLoop(GameFrame gameFrame, MazeFrame mazeFrame, PacMan pacMan, Ghost[] ghosts, int maxScore, int level) {
         this.pacMan = pacMan;
         this.ghosts = ghosts;
-        this.frame = cf;
-        this.panel = lf;
+        this.frame = gameFrame;
+        this.panel = mazeFrame;
         this.maxScore = maxScore;
         this.Δ = 50 - level * 5;
     }
@@ -54,12 +55,12 @@ public class MainLoop extends Thread {
                 }
 
                 for (Ghost ghost : ghosts) {
-                    int result = ghost.mover(godMode != -1);
+                    int result = ghost.move(godMode != -1);
                     if (result == Ghost.PAC_MAN_COLLISION) {
                         if (godMode != -1) {
                             ghost.restart();
                         } else {
-                            JOptionPane.showMessageDialog(panel, "YOU LOUSE!");
+                            JOptionPane.showMessageDialog(panel, "YOU LOSE!");
                             gameEnded = true;
                             break;
                         }

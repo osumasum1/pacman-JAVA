@@ -88,7 +88,7 @@ public class Grid {
         }
     }
 
-    /** Indica si un personaje se puede mover en una dirección si se encuentra en una determinada celda. */
+    /** Indica si un personaje se puede move en una dirección si se encuentra en una determinada celda. */
     public boolean move(int x, int y, int direction) {
         char next = '-';
         try {

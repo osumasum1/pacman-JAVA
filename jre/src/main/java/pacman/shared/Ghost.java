@@ -15,7 +15,7 @@ public class Ghost extends Character {
      * menores en cada eje y con un 0.5 de probabilidad se establecerá prioridad para el eje vertical. Se establecerá
      * la direccion prioritaria dentro de las posibles. El fantasma nunca cambia de sentido.
      */
-    public int mover(boolean godMode) {
+    public int move(boolean godMode) {
         int dx = Math.abs((x - target.x) * movesPerCell + xOffset - target.xOffset);
         int dy = Math.abs((y - target.y) * movesPerCell + yOffset - target.yOffset);
 

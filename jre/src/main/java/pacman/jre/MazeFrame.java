@@ -23,7 +23,7 @@ public class MazeFrame extends JPanel {
 
     private GameFrame game;
     private Grid grid = new Grid();
-    private PacMan data;
+    private PacMan pacMan;
     private Ghost[] ghosts;
     private final Color[] ghostColors = { Color.RED, Color.BLUE, Color.PINK, Color.CYAN };
     private MainLoop loop;
@@ -59,7 +59,7 @@ public class MazeFrame extends JPanel {
     public void restartGame() {
         if (loop != null) loop.endGame();
         grid = new Grid();
-        data = new PacMan(grid, 1, 1, 5);
+        pacMan = new PacMan(grid, 1, 1, 5);
         ghosts = new Ghost[4];
         int cnt = 0;
         for (int i = 0; i < grid.maze[0].length; i++) {
@@ -67,10 +67,10 @@ public class MazeFrame extends JPanel {
                 if (grid.maze[j][i] == Grid.GHOST) {
                     ghosts[cnt] = new Ghost(grid, i, j, 8);
                     Ghost ghost = ghosts[cnt++];
-                    ghost.target = data;
+                    ghost.target = pacMan;
                 }
         }
-        loop = new MainLoop(game, this, data, ghosts, grid.maxScore, 0);
+        loop = new MainLoop(game, this, pacMan, ghosts, grid.maxScore, 0);
         loop.start();
     }
 
@@ -187,30 +187,30 @@ public class MazeFrame extends JPanel {
 
     private void paintPacMan(Graphics g, int cw) {
         int xoffset = (getWidth() - grid.maze[0].length * cw) / 2;
-        int xoffsetmov = data.xOffset * cw / data.movesPerCell;
-        int yoffsetmov = data.yOffset * cw / data.movesPerCell;
+        int xoffsetmov = pacMan.xOffset * cw / pacMan.movesPerCell;
+        int yoffsetmov = pacMan.yOffset * cw / pacMan.movesPerCell;
         g.setColor(mode == GOD ? new Color((int) (Math.random() * 65000)) : Color.YELLOW);
 
-        switch (data.currentDirection) {
+        switch (pacMan.currentDirection) {
             case Grid.RIGHT:
-                g.fillArc(xoffset + xoffsetmov + data.x * cw, yoffsetmov + data.y * cw, cw + 2, cw + 2,
-                        (int) (22 - 22 * sin((2 * Math.PI * data.xOffset) / data.movesPerCell)),
-                        (int) (315 + 45 * sin((2 * Math.PI * data.xOffset) / data.movesPerCell)));
+                g.fillArc(xoffset + xoffsetmov + pacMan.x * cw, yoffsetmov + pacMan.y * cw, cw + 2, cw + 2,
+                        (int) (22 - 22 * sin((2 * Math.PI * pacMan.xOffset) / pacMan.movesPerCell)),
+                        (int) (315 + 45 * sin((2 * Math.PI * pacMan.xOffset) / pacMan.movesPerCell)));
                 break;
             case Grid.LEFT:
-                g.fillArc(xoffset + xoffsetmov + data.x * cw, yoffsetmov + data.y * cw, cw + 2, cw + 2,
-                        (int) (202 - 22 * sin((2 * Math.PI * data.xOffset) / data.movesPerCell)),
-                        (int) (315 + 45 * sin((2 * Math.PI * data.xOffset) / data.movesPerCell)));
+                g.fillArc(xoffset + xoffsetmov + pacMan.x * cw, yoffsetmov + pacMan.y * cw, cw + 2, cw + 2,
+                        (int) (202 - 22 * sin((2 * Math.PI * pacMan.xOffset) / pacMan.movesPerCell)),
+                        (int) (315 + 45 * sin((2 * Math.PI * pacMan.xOffset) / pacMan.movesPerCell)));
                 break;
             case Grid.UP:
-                g.fillArc(xoffset + xoffsetmov + data.x * cw, yoffsetmov + data.y * cw, cw + 2, cw + 2,
-                        (int) (112 - 22 * sin((2 * Math.PI * data.yOffset) / data.movesPerCell)),
-                        (int) (315 + 45 * sin((2 * Math.PI * data.yOffset) / data.movesPerCell)));
+                g.fillArc(xoffset + xoffsetmov + pacMan.x * cw, yoffsetmov + pacMan.y * cw, cw + 2, cw + 2,
+                        (int) (112 - 22 * sin((2 * Math.PI * pacMan.yOffset) / pacMan.movesPerCell)),
+                        (int) (315 + 45 * sin((2 * Math.PI * pacMan.yOffset) / pacMan.movesPerCell)));
                 break;
             case Grid.DOWN:
-                g.fillArc(xoffset + xoffsetmov + data.x * cw, yoffsetmov + data.y * cw, cw + 2, cw + 2,
-                        (int) (292 - 22 * sin((2 * Math.PI * data.yOffset) / data.movesPerCell)),
-                        (int) (315 + 45 * sin((2 * Math.PI * data.yOffset) / data.movesPerCell)));
+                g.fillArc(xoffset + xoffsetmov + pacMan.x * cw, yoffsetmov + pacMan.y * cw, cw + 2, cw + 2,
+                        (int) (292 - 22 * sin((2 * Math.PI * pacMan.yOffset) / pacMan.movesPerCell)),
+                        (int) (315 + 45 * sin((2 * Math.PI * pacMan.yOffset) / pacMan.movesPerCell)));
                 break;
         }
     }
