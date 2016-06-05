@@ -1,8 +1,8 @@
 package pacman.shared;
 
 import pacman.jre.GameFrame;
-import pacman.jre.MazeFrame;
-import pacman.jre.MazeFrame.Mode;
+import pacman.jre.GameDrawer;
+import pacman.jre.GameDrawer.Mode;
 
 import javax.swing.*;
 
@@ -12,17 +12,17 @@ public class MainLoop extends Thread {
     public boolean gameEnded = false;
     public boolean paused = false;
     GameFrame frame;
-    MazeFrame panel;
+    GameDrawer panel;
     int score = 0;
     int godMode = 0;
     int maxScore;
     int Δ;
 
-    public MainLoop(GameFrame gameFrame, MazeFrame mazeFrame, PacMan pacMan, Ghost[] ghosts, int maxScore, int level) {
+    public MainLoop(GameFrame gameFrame, GameDrawer drawer, PacMan pacMan, Ghost[] ghosts, int maxScore, int level) {
         this.pacMan = pacMan;
         this.ghosts = ghosts;
         this.frame = gameFrame;
-        this.panel = mazeFrame;
+        this.panel = drawer;
         this.maxScore = maxScore;
         this.Δ = 50 - level * 5;
     }

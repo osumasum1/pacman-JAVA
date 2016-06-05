@@ -2,77 +2,29 @@ package pacman.jre;
 
 import pacman.shared.Ghost;
 import pacman.shared.Grid;
-import pacman.shared.MainLoop;
 import pacman.shared.PacMan;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.Math.sin;
-import static pacman.jre.MazeFrame.Mode.GOD;
+import static pacman.jre.GameDrawer.Mode.GOD;
 
-public class MazeFrame extends JPanel {
-    private static final Logger log = Logger.getLogger(MazeFrame.class.getName());
+public class GameDrawer extends JPanel {
+    private static final Logger log = Logger.getLogger(GameDrawer.class.getName());
 
     public enum Mode {NORMAL, GOD}
 
-    private GameFrame game;
-    private Grid grid = new Grid();
+    private Grid grid;
     private PacMan pacMan;
     private Ghost[] ghosts;
     private final Color[] ghostColors = { Color.RED, Color.BLUE, Color.PINK, Color.CYAN };
-    private MainLoop loop;
     public Mode mode;
 
-    public MazeFrame(GameFrame game) {
-        this.game = game; // TODO remove cyclic dependency
+    public GameDrawer() {
         setPreferredSize(GameFrame.PREFERRED_SIZE);
-        addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent evt) {
-                requestFocus();
-            }
-        });
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(KeyEvent evt) {
-                switch (evt.getKeyCode()) {
-                    case KeyEvent.VK_UP: loop.pacMan.nextDirection = Grid.UP; break;
-                    case KeyEvent.VK_DOWN: loop.pacMan.nextDirection = Grid.DOWN; break;
-                    case KeyEvent.VK_LEFT: loop.pacMan.nextDirection = Grid.LEFT; break;
-                    case KeyEvent.VK_RIGHT: loop.pacMan.nextDirection = Grid.RIGHT; break;
-                    case KeyEvent.VK_SPACE: togglePause(); break;
-                }
-            }
-        });
-
-        restartGame();
-    }
-
-    public void togglePause() {
-        if (loop.isPaused()) loop.resumeGame();
-        else loop.pauseGame();
-    }
-
-    public void restartGame() {
-        if (loop != null) loop.endGame();
-        grid = new Grid();
-        pacMan = new PacMan(grid, 1, 1, 5);
-        ghosts = new Ghost[4];
-        int cnt = 0;
-        for (int i = 0; i < grid.maze[0].length; i++) {
-            for (int j = 0; j < grid.maze.length; j++)
-                if (grid.maze[j][i] == Grid.GHOST) {
-                    ghosts[cnt] = new Ghost(grid, i, j, 8);
-                    Ghost ghost = ghosts[cnt++];
-                    ghost.target = pacMan;
-                }
-        }
-        loop = new MainLoop(game, this, pacMan, ghosts, grid.maxScore, 0);
-        loop.start();
     }
 
     @Override
@@ -265,5 +217,17 @@ public class MazeFrame extends JPanel {
                     yoffsetmov + ghosts[i].y * cw + (2 * cw / 8) + (2 * cw / 24),
                     cw / 6, cw / 6);
         }
+    }
+
+    public void setGrid(Grid grid) {
+        this.grid = grid;
+    }
+
+    public void setPacMan(PacMan pacMan) {
+        this.pacMan = pacMan;
+    }
+
+    public void setGhosts(Ghost[] ghosts) {
+        this.ghosts = ghosts;
     }
 }
