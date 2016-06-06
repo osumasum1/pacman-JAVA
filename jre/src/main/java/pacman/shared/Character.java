@@ -4,13 +4,13 @@ public class Character {
     public int x, y;
     public int xOffset, yOffset;
     public final int movesPerCell;
-    public int currentDirection = Grid.RIGHT;
-    public int nextDirection = Grid.RIGHT;
-    public Grid grid;
+    public int currentDirection = Maze.RIGHT;
+    public int nextDirection = Maze.RIGHT;
+    public Maze maze;
     public int x0, y0;
 
-    Character(Grid grid, int x, int y, int movesPerCell) {
-        this.grid = grid;
+    Character(Maze maze, int x, int y, int movesPerCell) {
+        this.maze = maze;
         this.x = x0 = x;
         this.y = y0 = y;
         this.movesPerCell = movesPerCell;
@@ -20,7 +20,7 @@ public class Character {
         x = x0;
         y = y0;
         xOffset = yOffset = 0;
-        currentDirection = nextDirection = Grid.RIGHT;
+        currentDirection = nextDirection = Maze.RIGHT;
     }
 
     public int move() {
@@ -28,14 +28,14 @@ public class Character {
         boolean vertical = false;
 
         if (xOffset == 0 && yOffset == 0 && currentDirection != nextDirection)
-            if (grid.move(x, y, nextDirection))
+            if (maze.move(x, y, nextDirection))
                 currentDirection = nextDirection;
 
         switch (currentDirection) {
-            case Grid.LEFT: sign = -1; break;
-            case Grid.RIGHT: sign = 1; break;
-            case Grid.UP: sign = -1; vertical = true; break;
-            case Grid.DOWN: sign = 1; vertical = true; break;
+            case Maze.LEFT: sign = -1; break;
+            case Maze.RIGHT: sign = 1; break;
+            case Maze.UP: sign = -1; vertical = true; break;
+            case Maze.DOWN: sign = 1; vertical = true; break;
         }
 
         if (vertical) {
@@ -46,7 +46,7 @@ public class Character {
             } else if (yOffset + sign == -movesPerCell) {
                 y--;
                 yOffset = 0;
-            } else if ((yOffset + sign != 1 && yOffset + sign != -1) || grid.move(x, y, currentDirection)) {
+            } else if ((yOffset + sign != 1 && yOffset + sign != -1) || maze.move(x, y, currentDirection)) {
                 yOffset += sign;
             }
         } else {
@@ -57,13 +57,13 @@ public class Character {
             } else if (xOffset + sign == -movesPerCell) {
                 x--;
                 xOffset = 0;
-            } else if ((xOffset + sign != 1 && xOffset + sign != -1) || grid.move(x, y, currentDirection)) {
+            } else if ((xOffset + sign != 1 && xOffset + sign != -1) || maze.move(x, y, currentDirection)) {
                 xOffset += sign;
             }
         }
 
-        if (x == 0 && xOffset == 0) x = grid.maze[0].length - 1;
-        else if (x == grid.maze[0].length - 1 && xOffset == 0) x = 0;
+        if (x == 0 && xOffset == 0) x = maze.maze[0].length - 1;
+        else if (x == maze.maze[0].length - 1 && xOffset == 0) x = 0;
 
         return 0;
     }

@@ -4,8 +4,8 @@ public class Ghost extends Character {
     static final int PAC_MAN_COLLISION = 1;
     public PacMan target;
 
-    public Ghost(Grid grid, int x, int y, int movesPerCell) {
-        super(grid, x, y, movesPerCell);
+    public Ghost(Maze maze, int x, int y, int movesPerCell) {
+        super(maze, x, y, movesPerCell);
     }
 
     /**
@@ -24,31 +24,31 @@ public class Ghost extends Character {
 
         if (xOffset == 0 && yOffset == 0) {
             int possibleDirections = 0;
-            if (grid.move(x, y, Grid.DOWN) && currentDirection != Grid.UP) possibleDirections |= Grid.DOWN;
-            if (grid.move(x, y, Grid.UP) && currentDirection != Grid.DOWN) possibleDirections |= Grid.UP;
-            if (grid.move(x, y, Grid.RIGHT) && currentDirection != Grid.LEFT) possibleDirections |= Grid.RIGHT;
-            if (grid.move(x, y, Grid.LEFT) && currentDirection != Grid.RIGHT) possibleDirections |= Grid.LEFT;
+            if (maze.move(x, y, Maze.DOWN) && currentDirection != Maze.UP) possibleDirections |= Maze.DOWN;
+            if (maze.move(x, y, Maze.UP) && currentDirection != Maze.DOWN) possibleDirections |= Maze.UP;
+            if (maze.move(x, y, Maze.RIGHT) && currentDirection != Maze.LEFT) possibleDirections |= Maze.RIGHT;
+            if (maze.move(x, y, Maze.LEFT) && currentDirection != Maze.RIGHT) possibleDirections |= Maze.LEFT;
 
             int direction = 0;
 
             if (Math.random() > 0.75) {
                 while (direction == 0) {
                     double d = Math.random();
-                    if (d < 0.25) direction = Grid.DOWN & possibleDirections;
-                    else if (d < 0.5) direction = Grid.UP & possibleDirections;
-                    else if (d < 0.75) direction = Grid.RIGHT & possibleDirections;
-                    else direction = Grid.LEFT & possibleDirections;
+                    if (d < 0.25) direction = Maze.DOWN & possibleDirections;
+                    else if (d < 0.5) direction = Maze.UP & possibleDirections;
+                    else if (d < 0.75) direction = Maze.RIGHT & possibleDirections;
+                    else direction = Maze.LEFT & possibleDirections;
                 }
             } else {
-                int[] priority = { Grid.DOWN, Grid.RIGHT, Grid.UP, Grid.LEFT };
+                int[] priority = { Maze.DOWN, Maze.RIGHT, Maze.UP, Maze.LEFT };
 
                 if (x > target.x) {
-                    priority[1] = Grid.LEFT;
-                    priority[3] = Grid.RIGHT;
+                    priority[1] = Maze.LEFT;
+                    priority[3] = Maze.RIGHT;
                 }
                 if (y > target.y) {
-                    priority[0] = Grid.UP;
-                    priority[2] = Grid.DOWN;
+                    priority[0] = Maze.UP;
+                    priority[2] = Maze.DOWN;
                 }
 
                 int aux;

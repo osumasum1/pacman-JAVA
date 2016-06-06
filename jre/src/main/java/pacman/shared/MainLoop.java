@@ -1,56 +1,63 @@
 package pacman.shared;
 
-import javafx.application.Platform;
-import pacman.jre.GameDrawer;
-import pacman.jre.GameDrawer.Mode;
-import pacman.jre.Game;
+import pacman.jre.Drawer;
 
 public class MainLoop extends Thread {
-    public PacMan pacMan;
-    Ghost[] ghosts;
-    public boolean gameEnded = false;
-    public boolean paused = false;
-    Game game;
-    GameDrawer drawer;
-    int score = 0;
-    int godMode = 0;
-    int maxScore;
-    int Δ;
+    Drawer drawer;
 
-    public MainLoop(Game gameFrame, GameDrawer game,
-                    PacMan pacMan, Ghost[] ghosts, int maxScore, int level) {
-        this.pacMan = pacMan;
-        this.ghosts = ghosts;
-        this.game = gameFrame;
-        this.drawer = game;
-        this.maxScore = maxScore;
+    public Maze maze;
+    public PacMan pacMan;
+    public Ghost[] ghosts;
+    public Mode mode;
+    public int score = 0;
+
+    private boolean gameEnded = false;
+    private boolean paused = false;
+    private int godMode = 0;
+    private int Δ;
+
+    public MainLoop(Drawer drawer, int level) {
+        this.drawer = drawer;
+        this.maze = new Maze();
+        this.pacMan = new PacMan(maze, 1, 1, 5);
+        this.ghosts = new Ghost[4];
         this.Δ = 50 - level * 5;
+
+        int cnt = 0;
+        for (int i = 0; i < maze.maze[0].length; i++) {
+            for (int j = 0; j < maze.maze.length; j++)
+                if (maze.maze[j][i] == Maze.GHOST) {
+                    ghosts[cnt] = new Ghost(maze, i, j, 8);
+                    Ghost ghost = ghosts[cnt++];
+                    ghost.target = pacMan;
+                }
+        }
     }
 
     public synchronized void endGame() { gameEnded = true; }
 
     public boolean isPaused() { return paused; }
 
-    public synchronized void pauseGame() { paused = true; }
-
-    public synchronized void resumeGame() { paused = false; notifyAll(); }
+    public void pauseToggle() {
+        if (isPaused()) synchronized (this) { paused = false; notifyAll(); }
+        else synchronized (this) {paused = true;}
+    }
 
     @Override
     public void run() {
         try {
             while (!gameEnded) {
-                drawer.rePaint();
                 synchronized (this) {
                     while (paused) wait();
                 }
                 int score = pacMan.move();
                 this.score += score;
-                Platform.runLater(() -> game.setScore(this.score));
-                if (score == Grid.POWER_PELLET_POINTS) godMode = 10000 / Δ;
+                drawer.draw(this);
+                if (score == Maze.POWER_PELLET_POINTS) godMode = 10000 / Δ;
 
                 if (godMode != -1) {
-                    if (godMode == 0) drawer.setMode(Mode.NORMAL);
-                    else if (godMode == 10000 / Δ) drawer.setMode(Mode.GOD);
+                    if (godMode == 0) mode = Mode.NORMAL;
+                    else if (godMode == 10000 / Δ) mode = Mode.GOD;
                     godMode--;
                 }
 
@@ -60,15 +67,15 @@ public class MainLoop extends Thread {
                         if (godMode != -1) {
                             ghost.restart();
                         } else {
-                            Platform.runLater(() -> game.showLoseDialog());
+                            drawer.alert("¡Has perdido!");
                             gameEnded = true;
                             break;
                         }
                     }
                 }
 
-                if (this.score == maxScore) {
-                    Platform.runLater(() -> game.showWinDialog());
+                if (this.score == maze.maxScore) {
+                    drawer.alert("¡Has ganado!");
                     gameEnded = true;
                 }
 
@@ -76,4 +83,6 @@ public class MainLoop extends Thread {
             }
         } catch (InterruptedException ignore) { }
     }
+
+    public enum Mode {NORMAL, GOD}
 }

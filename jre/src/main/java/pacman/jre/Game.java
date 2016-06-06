@@ -1,9 +1,12 @@
 package pacman.jre;
 
+import static javafx.application.Platform.runLater;
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
+
+import java.util.function.Consumer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -12,147 +15,76 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import pacman.shared.Ghost;
-import pacman.shared.Grid;
 import pacman.shared.MainLoop;
-import pacman.shared.PacMan;
+import pacman.shared.Maze;
 
-/**
- * Created by alejandrocq on 6/06/16.
- */
 public class Game extends Application {
-
-    private final String WINDOW_TITLE = "PACMAN";
     private final int WINDOW_WIDTH = 800;
     private final int WINDOW_HEIGHT = 800;
 
-    private MenuBar menuBar;
-    private Menu menuScore;
-
-    private GameDrawer drawer;
-    private Canvas canvas;
-    private GraphicsContext context;
-
-    private Grid grid;
-    private PacMan pacMan;
-    private Ghost[] ghosts;
-
     private MainLoop loop;
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        MenuBar menuBar = new MenuBar();
+        Menu menuGame = new Menu("Game");
+        MenuItem newGame = new MenuItem("New");
+        MenuItem pauseGame = new MenuItem("Pause");
+        MenuItem exitGame = new MenuItem("Exit");
+        menuGame.getItems().addAll(newGame, pauseGame, exitGame);
+        menuBar.getMenus().add(menuGame);
 
-        createMenuBar();
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(menuBar);
+        Menu menuScore = new Menu("Score: 0");
+        menuBar.getMenus().add(menuScore);
 
-        drawer = new GameDrawer(this);
-        vBox.getChildren().add(canvas);
-
-        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            canvas.requestFocus();
+        Consumer<Integer> score = s -> runLater(() -> menuScore.setText("Score: " + (int) s));
+        Consumer<String> alert = text -> runLater(() -> {
+            Alert a = new Alert(INFORMATION);
+            a.setTitle("PAC-MAN");
+            a.setHeaderText(null);
+            a.setContentText(text);
+            a.showAndWait();
         });
 
+        Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
+        Drawer drawer = new Drawer(canvas, score, alert);
+
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(menuBar);
+        vBox.getChildren().add(canvas);
+
+        Runnable restart = () -> restart(drawer);
+        newGame.setOnAction(actionEvent -> restart.run());
+        pauseGame.setOnAction(actionEvent -> loop.pauseToggle());
+        exitGame.setOnAction(actionEvent -> System.exit(0));
+
+        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> canvas.requestFocus());
         canvas.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             switch (keyEvent.getCode()) {
-                case UP: loop.pacMan.nextDirection = Grid.UP; break;
-                case DOWN: loop.pacMan.nextDirection = Grid.DOWN; break;
-                case LEFT: loop.pacMan.nextDirection = Grid.LEFT; break;
-                case RIGHT: loop.pacMan.nextDirection = Grid.RIGHT; break;
-                case SPACE: togglePause(); break;
+                case UP: loop.pacMan.nextDirection = Maze.UP; break;
+                case DOWN: loop.pacMan.nextDirection = Maze.DOWN; break;
+                case LEFT: loop.pacMan.nextDirection = Maze.LEFT; break;
+                case RIGHT: loop.pacMan.nextDirection = Maze.RIGHT; break;
+                case SPACE: loop.pauseToggle(); break;
             }
         });
 
         Scene scene = new Scene(vBox, WINDOW_WIDTH, WINDOW_HEIGHT);
-        stage.setTitle(WINDOW_TITLE);
+        stage.setTitle("PAC-MAN");
         stage.setScene(scene);
         stage.show();
 
-        restartGame();
+        restart.run();
         canvas.requestFocus();
-
     }
 
-    public void restartGame() {
+    public void restart(Drawer drawer) {
         if (loop != null) loop.endGame();
-        grid = new Grid();
-        pacMan = new PacMan(grid, 1, 1, 5);
-        ghosts = new Ghost[4];
-        int cnt = 0;
-        for (int i = 0; i < grid.maze[0].length; i++) {
-            for (int j = 0; j < grid.maze.length; j++)
-                if (grid.maze[j][i] == Grid.GHOST) {
-                    ghosts[cnt] = new Ghost(grid, i, j, 8);
-                    Ghost ghost = ghosts[cnt++];
-                    ghost.target = pacMan;
-                }
-        }
-
-        drawer.rePaint(grid, pacMan, ghosts);
-
-        loop = new MainLoop(this, drawer, pacMan, ghosts, grid.maxScore, 0);
+        loop = new MainLoop(drawer, 0);
         loop.start();
-    }
-
-    public void togglePause() {
-        if (loop.isPaused()) loop.resumeGame();
-        else loop.pauseGame();
-    }
-
-    public void setScore(int score) {
-        menuScore.setText("Score: " + score);
-    }
-
-    private void createMenuBar() {
-        menuBar = new MenuBar();
-        Menu menuGame = new Menu("Game");
-
-        MenuItem newGame = new MenuItem("New");
-        newGame.setOnAction(actionEvent -> restartGame());
-
-        MenuItem pauseGame = new MenuItem("Pause");
-        pauseGame.setOnAction(actionEvent -> togglePause());
-
-        MenuItem exitGame = new MenuItem("Exit");
-        exitGame.setOnAction(actionEvent -> System.exit(0));
-
-        menuScore = new Menu("Score: 0");
-
-        menuGame.getItems().addAll(newGame, pauseGame, exitGame);
-        menuBar.getMenus().addAll(menuGame, menuScore);
-    }
-
-    public void showWinDialog() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("PACMAN");
-        alert.setHeaderText(null);
-        alert.setContentText("¡Has ganado!");
-
-        alert.showAndWait();
-    }
-
-    public void showLoseDialog() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("PACMAN");
-        alert.setHeaderText(null);
-        alert.setContentText("¡Has perdido!");
-
-        alert.showAndWait();
-    }
-
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
-
-    public int getWindowWidth() {
-        return WINDOW_WIDTH;
-    }
-
-    public int getWindowHeight() {
-        return WINDOW_HEIGHT;
     }
 }

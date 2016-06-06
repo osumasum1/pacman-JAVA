@@ -2,12 +2,12 @@ package pacman.shared;
 
 public class PacMan extends Character {
 
-    public PacMan(Grid grid, int x, int y, int movsPorCelda) {
-        super(grid, x, y, movsPorCelda);
+    public PacMan(Maze maze, int x, int y, int movsPorCelda) {
+        super(maze, x, y, movsPorCelda);
     }
 
     @Override public int move() {
         super.move();
-        return grid.eat(x, y);
+        return maze.eat(x, y);
     }
 }

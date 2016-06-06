@@ -1,7 +1,6 @@
 package pacman.shared;
 
-public class Grid {
-
+public class Maze {
     private static final String DEFAULT_GRID[] = {
             "1AAAAAAAAAAAA21AAAAAAAAAAAA2",
             "I............DI............D",
@@ -35,7 +34,6 @@ public class Grid {
             "I..........................D",
             "3BBBBBBBBBBBBBBBBBBBBBBBBBB4"
     };
-
     public static final int LEFT = 0x1, RIGHT = 0x10, UP = 0x100, DOWN = 0x1000;
     public static final int PELLET_POINTS = 10, POWER_PELLET_POINTS = 50;
     public static final char
@@ -60,7 +58,7 @@ public class Grid {
     public char[][] maze;
     public int maxScore;
 
-    public Grid() {
+    public Maze() {
         int rows = DEFAULT_GRID.length;
         maze = new char[rows][];
         for (int i = 0; i < DEFAULT_GRID.length; i++) {
