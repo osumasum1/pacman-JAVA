@@ -1,28 +1,28 @@
 package pacman.shared;
 
-import pacman.jre.GameFrame;
+import javafx.application.Platform;
 import pacman.jre.GameDrawer;
 import pacman.jre.GameDrawer.Mode;
-
-import javax.swing.*;
+import pacman.jre.Game;
 
 public class MainLoop extends Thread {
     public PacMan pacMan;
     Ghost[] ghosts;
     public boolean gameEnded = false;
     public boolean paused = false;
-    GameFrame frame;
-    GameDrawer panel;
+    Game game;
+    GameDrawer drawer;
     int score = 0;
     int godMode = 0;
     int maxScore;
     int Δ;
 
-    public MainLoop(GameFrame gameFrame, GameDrawer drawer, PacMan pacMan, Ghost[] ghosts, int maxScore, int level) {
+    public MainLoop(Game gameFrame, GameDrawer game,
+                    PacMan pacMan, Ghost[] ghosts, int maxScore, int level) {
         this.pacMan = pacMan;
         this.ghosts = ghosts;
-        this.frame = gameFrame;
-        this.panel = drawer;
+        this.game = gameFrame;
+        this.drawer = game;
         this.maxScore = maxScore;
         this.Δ = 50 - level * 5;
     }
@@ -39,18 +39,18 @@ public class MainLoop extends Thread {
     public void run() {
         try {
             while (!gameEnded) {
-                panel.repaint();
+                drawer.rePaint();
                 synchronized (this) {
                     while (paused) wait();
                 }
                 int score = pacMan.move();
                 this.score += score;
-                frame.score(this.score);
+                Platform.runLater(() -> game.setScore(this.score));
                 if (score == Grid.POWER_PELLET_POINTS) godMode = 10000 / Δ;
 
                 if (godMode != -1) {
-                    if (godMode == 0) panel.mode = Mode.NORMAL;
-                    else if (godMode == 10000 / Δ) panel.mode = Mode.GOD;
+                    if (godMode == 0) drawer.setMode(Mode.NORMAL);
+                    else if (godMode == 10000 / Δ) drawer.setMode(Mode.GOD);
                     godMode--;
                 }
 
@@ -60,7 +60,7 @@ public class MainLoop extends Thread {
                         if (godMode != -1) {
                             ghost.restart();
                         } else {
-                            JOptionPane.showMessageDialog(panel, "YOU LOSE!");
+                            Platform.runLater(() -> game.showLoseDialog());
                             gameEnded = true;
                             break;
                         }
@@ -68,7 +68,7 @@ public class MainLoop extends Thread {
                 }
 
                 if (this.score == maxScore) {
-                    JOptionPane.showMessageDialog(panel, "YOU WIN!");
+                    Platform.runLater(() -> game.showWinDialog());
                     gameEnded = true;
                 }
 
