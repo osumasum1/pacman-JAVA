@@ -39,19 +39,19 @@ public class Drawer {
     public void draw(MainLoop state) {
         // TODO support resizable canvas, so all this values might change in each draw
         double w = canvas.getWidth(), h = canvas.getHeight();
-        int cw = (int) Math.min(w / state.maze.maze[0].length, h / state.maze.maze.length);
-        double xOffset = (w - state.maze.maze[0].length * cw) / 2;
+        int cellWidth = (int) Math.min(w / state.maze.maze[0].length, h / state.maze.maze.length);
+        double xOffset = (w - state.maze.maze[0].length * cellWidth) / 2;
 
         // clear
         context.beginPath();
         context.setFill(Color.BLACK);
-        context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        context.fillRect(0, 0, w, h);
         context.closePath();
 
         // draw
-        drawMaze(state.maze, cw, xOffset);
-        drawPacMan(state.pacMan, cw, xOffset);
-        drawGhosts(state.ghosts, cw, (int) (xOffset), state.mode);
+        drawMaze(state.maze, cellWidth, xOffset);
+        drawPacMan(state.pacMan, cellWidth, xOffset);
+        drawGhosts(state.ghosts, cellWidth, (int) (xOffset), state.mode);
         score.accept(state.score);
     }
 
