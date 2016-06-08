@@ -1,19 +1,21 @@
 package pacman.shared;
 
 public class Character {
+    public final Maze maze;
+    public final int movesPerCell;
+    public final int x0, y0;
+
     public int x, y;
     public int xOffset, yOffset;
-    public final int movesPerCell;
     public int currentDirection = Maze.RIGHT;
     public int nextDirection = Maze.RIGHT;
-    public Maze maze;
-    public int x0, y0;
 
-    Character(Maze maze, int x, int y, int movesPerCell) {
+    Character(Maze maze, int movesPerCell, int x0, int y0) {
         this.maze = maze;
-        this.x = x0 = x;
-        this.y = y0 = y;
         this.movesPerCell = movesPerCell;
+        this.x0 = x0;
+        this.y0 = y0;
+        restart();
     }
 
     public void restart() {

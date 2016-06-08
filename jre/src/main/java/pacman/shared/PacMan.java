@@ -2,8 +2,8 @@ package pacman.shared;
 
 public class PacMan extends Character {
 
-    public PacMan(Maze maze, int x, int y, int movsPorCelda) {
-        super(maze, x, y, movsPorCelda);
+    public PacMan(Maze maze, int movesPerCell, int x0, int y0) {
+        super(maze, movesPerCell, x0, y0);
     }
 
     @Override public int move() {

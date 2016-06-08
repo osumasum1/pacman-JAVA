@@ -3,33 +3,30 @@ package pacman.shared;
 import pacman.jre.Drawer;
 
 public class MainLoop {
-    Drawer drawer;
+    private final Drawer drawer;
 
-    public Maze maze;
-    public PacMan pacMan;
-    public Ghost[] ghosts;
+    public final Maze maze;
+    public final PacMan pacMan;
+    public final Ghost[] ghosts;
+    public final int delta;
+
     public Mode mode;
     public int score = 0;
-
     public boolean gameEnded = false;
     private int godMode = 0;
-    public int delta;
 
     public MainLoop(Drawer drawer, int level) {
         this.drawer = drawer;
         this.maze = new Maze();
-        this.pacMan = new PacMan(maze, 1, 1, 5);
+        this.pacMan = new PacMan(maze, 5, 1, 1);
         this.ghosts = new Ghost[4];
         this.delta = 50 - level * 5;
 
         int cnt = 0;
         for (int i = 0; i < maze.maze[0].length; i++) {
-            for (int j = 0; j < maze.maze.length; j++)
-                if (maze.maze[j][i] == Maze.GHOST) {
-                    ghosts[cnt] = new Ghost(maze, i, j, 8);
-                    Ghost ghost = ghosts[cnt++];
-                    ghost.target = pacMan;
-                }
+            for (int j = 0; j < maze.maze.length; j++) {
+                if (maze.maze[j][i] == Maze.GHOST) ghosts[cnt++] = new Ghost(maze, 8, i, j, pacMan);
+            }
         }
     }
 

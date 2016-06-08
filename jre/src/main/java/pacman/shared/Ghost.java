@@ -2,10 +2,11 @@ package pacman.shared;
 
 public class Ghost extends Character {
     static final int PAC_MAN_COLLISION = 1;
-    public PacMan target;
+    public final PacMan target;
 
-    public Ghost(Maze maze, int x, int y, int movesPerCell) {
-        super(maze, x, y, movesPerCell);
+    public Ghost(Maze maze, int movesPerCell, int x0, int y0, PacMan pacMan) {
+        super(maze, movesPerCell, x0, y0);
+        this.target = pacMan;
     }
 
     /**

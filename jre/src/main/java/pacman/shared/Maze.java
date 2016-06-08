@@ -55,8 +55,8 @@ public class Maze {
             GHOST = 'F',
             FREE = ' ';
 
-    public char[][] maze;
-    public int maxScore;
+    public final char[][] maze;
+    public final int maxScore;
 
     public Maze() {
         int rows = DEFAULT_GRID.length;
@@ -65,12 +65,14 @@ public class Maze {
             maze[i] = DEFAULT_GRID[i].toCharArray();
         }
 
+        int maxScore = 0;
         for (char[] y : maze) {
             for (char x : y) {
                 if (x == SMALL_DOT) maxScore += PELLET_POINTS;
                 else if (x == BIG_DOT) maxScore += POWER_PELLET_POINTS;
             }
         }
+        this.maxScore = maxScore;
     }
 
     /** Comer el coco de la celda actual. Devuelve el numero de puntos si come coco, sino 0. */
