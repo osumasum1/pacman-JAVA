@@ -3,6 +3,8 @@ package pacman.jre;
 import static javafx.application.Platform.runLater;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Consumer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -22,7 +24,9 @@ public class Game extends Application {
     private final int WINDOW_WIDTH = 800;
     private final int WINDOW_HEIGHT = 800;
 
-    private MainLoop loop;
+    private MainLoop game;
+    private TimerTask ticker;
+    private Timer thread = new Timer("game-loop", true);
 
     public static void main(String[] args) {
         launch(args);
@@ -59,17 +63,17 @@ public class Game extends Application {
 
         Runnable restart = () -> restart(drawer);
         newGame.setOnAction(actionEvent -> restart.run());
-        pauseGame.setOnAction(actionEvent -> loop.pauseToggle());
+        pauseGame.setOnAction(actionEvent -> playPause(Game.this.game));
         exitGame.setOnAction(actionEvent -> System.exit(0));
 
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> canvas.requestFocus());
         canvas.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             switch (keyEvent.getCode()) {
-                case UP: loop.pacMan.nextDirection = Maze.UP; break;
-                case DOWN: loop.pacMan.nextDirection = Maze.DOWN; break;
-                case LEFT: loop.pacMan.nextDirection = Maze.LEFT; break;
-                case RIGHT: loop.pacMan.nextDirection = Maze.RIGHT; break;
-                case SPACE: loop.pauseToggle(); break;
+                case UP: game.pacMan.nextDirection = Maze.UP; break;
+                case DOWN: game.pacMan.nextDirection = Maze.DOWN; break;
+                case LEFT: game.pacMan.nextDirection = Maze.LEFT; break;
+                case RIGHT: game.pacMan.nextDirection = Maze.RIGHT; break;
+                case SPACE: playPause(Game.this.game); break;
             }
         });
 
@@ -83,8 +87,26 @@ public class Game extends Application {
     }
 
     public void restart(Drawer drawer) {
-        if (loop != null) loop.endGame();
-        loop = new MainLoop(drawer, 0);
-        loop.start();
+        if (game != null) {
+            game.endGame();
+            ticker = null;
+        }
+        game = new MainLoop(drawer, 0);
+        playPause(Game.this.game); // start ticker
+    }
+
+    public void playPause(MainLoop game) {
+        if (ticker == null) {  // play
+            ticker = new TimerTask() {
+                @Override public void run() {
+                    if (game.gameEnded) cancel();
+                    else game.tick();
+                }
+            };
+            thread.scheduleAtFixedRate(ticker, 0, game.delta);
+        } else {  // pause
+            ticker.cancel();
+            ticker = null;
+        }
     }
 }
