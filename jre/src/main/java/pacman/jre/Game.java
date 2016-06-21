@@ -57,8 +57,7 @@ public class Game extends Application {
         });
 
         Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
-        CanvasJfx canvasJfx = new CanvasJfx(canvas, WINDOW_WIDTH, WINDOW_HEIGHT);
-        Drawer drawer = new Drawer(canvasJfx, score, alert);
+        Drawer drawer = new Drawer(new JfxCanvas(canvas), score, alert);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(menuBar);

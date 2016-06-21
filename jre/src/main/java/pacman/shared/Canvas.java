@@ -1,6 +1,6 @@
 package pacman.shared;
 
-public interface Screen {
+public interface Canvas {
     double getWidth();
     double getHeight();
     void beginPath();
@@ -8,6 +8,6 @@ public interface Screen {
     void setFill(String color);
     void fillRect(double x, double y, double w, double h);
     void fillPolygon(double[] xPoints, double[] yPoints, int nPoints);
-    void fillArc(double x, double y, double w, double h, double startAngle, double arcExtent, String arcType);
+    void fillArc(double x, double y, double w, double h, double startAngle, double arcExtent);
     void fillOval(double x, double y, double w, double h);
 }
