@@ -1,7 +1,5 @@
 package pacman.shared;
 
-import pacman.jre.Drawer;
-
 public class MainLoop {
     private final Drawer drawer;
 

@@ -1,11 +1,5 @@
 package pacman.jre;
 
-import static javafx.application.Platform.runLater;
-import static javafx.scene.control.Alert.AlertType.INFORMATION;
-
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.function.Consumer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -17,8 +11,16 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import pacman.shared.Drawer;
 import pacman.shared.MainLoop;
 import pacman.shared.Maze;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.function.Consumer;
+
+import static javafx.application.Platform.runLater;
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 public class Game extends Application {
     private final int WINDOW_WIDTH = 800;
@@ -55,7 +57,8 @@ public class Game extends Application {
         });
 
         Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
-        Drawer drawer = new Drawer(canvas, score, alert);
+        CanvasJfx canvasJfx = new CanvasJfx(canvas, WINDOW_WIDTH, WINDOW_HEIGHT);
+        Drawer drawer = new Drawer(canvasJfx, score, alert);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(menuBar);
