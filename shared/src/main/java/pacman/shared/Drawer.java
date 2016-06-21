@@ -4,7 +4,6 @@ import static java.lang.Math.random;
 import static java.lang.Math.sin;
 import static pacman.shared.MainLoop.Mode.GOD;
 
-import java.util.function.Consumer;
 import pacman.shared.MainLoop.Mode;
 
 public class Drawer {
@@ -20,10 +19,10 @@ public class Drawer {
     private final String COLOR_YELLOW = "#FFFF00";
 
     private final Canvas canvas;
-    private final Consumer<Integer> score;
-    private final Consumer<String> alert;
+    private final Toaster score;
+    private final Toaster alert;
 
-    public Drawer(Canvas canvas, Consumer<Integer> score, Consumer<String> alert) {
+    public Drawer(Canvas canvas, Toaster score, Toaster alert) {
         this.canvas = canvas;
         this.score = score;
         this.alert = alert;
@@ -31,7 +30,7 @@ public class Drawer {
 
     /** Show alert message. */
     public void alert(String message) {
-        alert.accept(message);
+        alert.toast(message);
     }
 
     /** Draw current state. */
@@ -51,7 +50,7 @@ public class Drawer {
         drawMaze(state.maze, cellWidth, xOffset);
         drawPacMan(state.pacMan, cellWidth, xOffset);
         drawGhosts(state.ghosts, cellWidth, (int) (xOffset), state.mode);
-        score.accept(state.score);
+        score.toast(Integer.toString(state.score));
     }
 
     private void drawMaze(Maze maze, int cw, double xOffset) {
@@ -238,5 +237,9 @@ public class Drawer {
                     yOffsetMov + ghosts[i].y * cw + (2 * cw / 8) + (2 * cw / 24),
                     cw / 6, cw / 6);
         }
+    }
+
+    @FunctionalInterface public interface Toaster {
+        void toast(String message);
     }
 }

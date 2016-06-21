@@ -11,7 +11,7 @@
     <artifactId>pacman-jre</artifactId>
 
     <properties>
-        <app.mainClass>pacman.jre.Game</app.mainClass>
+        <app.mainClass>pacman.client.JfxGame</app.mainClass>
     </properties>
 
     <dependencies>

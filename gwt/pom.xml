@@ -9,4 +9,66 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>pacman-gwt</artifactId>
+    <packaging>gwt-app</packaging>
+
+    <properties>
+        <gwt.version>2.8.0-beta1</gwt.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.gwt</groupId>
+                <artifactId>gwt</artifactId>
+                <version>${gwt.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${gwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>${gwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.alejandrocq</groupId>
+            <artifactId>pacman-shared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.alejandrocq</groupId>
+            <artifactId>pacman-shared</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>1.0-rc-6</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <moduleName>pacman.PacMan</moduleName>
+                    <skipModule>true</skipModule>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- just here to make IntelliJ happy -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>2.7.0</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

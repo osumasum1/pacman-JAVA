@@ -1,5 +1,10 @@
-package pacman.jre;
+package pacman.client;
 
+import static javafx.application.Platform.runLater;
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
+
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -15,15 +20,8 @@ import pacman.shared.Drawer;
 import pacman.shared.MainLoop;
 import pacman.shared.Maze;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.function.Consumer;
-
-import static javafx.application.Platform.runLater;
-import static javafx.scene.control.Alert.AlertType.INFORMATION;
-
-public class Game extends Application {
-    private final int WINDOW_WIDTH = 800;
+public class JfxGame extends Application {
+    private final int WINDOW_WIDTH = 700;
     private final int WINDOW_HEIGHT = 800;
 
     private MainLoop game;
@@ -47,8 +45,8 @@ public class Game extends Application {
         Menu menuScore = new Menu("Score: 0");
         menuBar.getMenus().add(menuScore);
 
-        Consumer<Integer> score = s -> runLater(() -> menuScore.setText("Score: " + (int) s));
-        Consumer<String> alert = text -> runLater(() -> {
+        Drawer.Toaster score = s -> runLater(() -> menuScore.setText("Score: " + s));
+        Drawer.Toaster alert = text -> runLater(() -> {
             Alert a = new Alert(INFORMATION);
             a.setTitle("PAC-MAN");
             a.setHeaderText(null);
@@ -65,7 +63,7 @@ public class Game extends Application {
 
         Runnable restart = () -> restart(drawer);
         newGame.setOnAction(actionEvent -> restart.run());
-        pauseGame.setOnAction(actionEvent -> playPause(Game.this.game));
+        pauseGame.setOnAction(actionEvent -> playPause(JfxGame.this.game));
         exitGame.setOnAction(actionEvent -> System.exit(0));
 
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> canvas.requestFocus());
@@ -75,7 +73,7 @@ public class Game extends Application {
                 case DOWN: game.pacMan.nextDirection = Maze.DOWN; break;
                 case LEFT: game.pacMan.nextDirection = Maze.LEFT; break;
                 case RIGHT: game.pacMan.nextDirection = Maze.RIGHT; break;
-                case SPACE: playPause(Game.this.game); break;
+                case SPACE: playPause(JfxGame.this.game); break;
             }
         });
 
@@ -94,7 +92,7 @@ public class Game extends Application {
             ticker = null;
         }
         game = new MainLoop(drawer, 0);
-        playPause(Game.this.game); // start ticker
+        playPause(JfxGame.this.game); // start ticker
     }
 
     public void playPause(MainLoop game) {
