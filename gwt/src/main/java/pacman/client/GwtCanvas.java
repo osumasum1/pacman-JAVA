@@ -1,5 +1,7 @@
 package pacman.client;
 
+import static java.lang.Math.toRadians;
+
 import com.google.gwt.canvas.dom.client.Context2d;
 import pacman.shared.Canvas;
 
@@ -8,7 +10,7 @@ public class GwtCanvas implements Canvas {
     private com.google.gwt.canvas.client.Canvas canvas;
     private Context2d c2d;
 
-    public GwtCanvas (com.google.gwt.canvas.client.Canvas canvas) {
+    public GwtCanvas(com.google.gwt.canvas.client.Canvas canvas) {
         this.canvas = canvas;
         this.c2d = canvas.getContext2d();
     }
@@ -21,14 +23,6 @@ public class GwtCanvas implements Canvas {
         return canvas.getCoordinateSpaceHeight();
     }
 
-    @Override public void beginPath() {
-        c2d.beginPath();
-    }
-
-    @Override public void closePath() {
-        c2d.closePath();
-    }
-
     @Override public void setFill(String color) {
         c2d.setFillStyle(color);
     }
@@ -38,25 +32,27 @@ public class GwtCanvas implements Canvas {
     }
 
     @Override public void fillPolygon(double[] xPoints, double[] yPoints, int nPoints) {
-        for (int i = 0 ; i < nPoints ; i++) {
-            c2d.moveTo(xPoints[i], yPoints[i]);
-
-            if (i+1 < nPoints) {
-                c2d.lineTo(xPoints[i+1], yPoints[i+1]);
-            } else {
-                c2d.lineTo(xPoints[0], yPoints[0]);
-            }
+        c2d.beginPath();
+        c2d.moveTo(xPoints[0], yPoints[0]);
+        for (int i = 1; i <= nPoints; i++) {
+            c2d.lineTo(xPoints[i], yPoints[i]);
         }
+        c2d.closePath();
+        c2d.fill();
+    }
 
+    @Override public void fillOval(double x, double y, double w, double h) {
+        c2d.beginPath();
+        c2d.arc(x + w / 2., y + h / 2., w / 2., 0, Math.PI * 2);
+        c2d.closePath();
         c2d.fill();
     }
 
     @Override public void fillArc(double x, double y, double w, double h, double startAngle, double arcExtent) {
-        //Radius is width/2 = (cw + 2)/2
-        c2d.arc(x, y, w/2, startAngle, arcExtent);
-    }
-
-    @Override public void fillOval(double x, double y, double w, double h) {
-        c2d.arc(x, y, w/2, 0, Math.PI * 2);
+        c2d.beginPath();
+        c2d.arc(x + w / 2., y + h / 2., w / 2., -toRadians(startAngle), -toRadians(startAngle + arcExtent), true);
+        c2d.lineTo(x + w / 2., y + h / 2.);
+        c2d.closePath();
+        c2d.fill();
     }
 }

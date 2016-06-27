@@ -7,16 +7,11 @@ import static pacman.shared.MainLoop.Mode.GOD;
 import pacman.shared.MainLoop.Mode;
 
 public class Drawer {
-    private final String[] GHOST_COLORS = {
-            "#FF0000" /*red*/,
-            "#1A00FF" /*blue*/,
-            "#1A00FF" /*pink*/,
-            "#00FFFF" /*cyan*/
-    };
-    private final String COLOR_BLACK = "#000000";
-    private final String COLOR_WHITE = "#FFFFFF";
-    private final String COLOR_BLUE = "#0000FF";
-    private final String COLOR_YELLOW = "#FFFF00";
+    private final String[] GHOST_COLORS = { "red", "blue", "fuchsia", "cyan" };
+    private final String COLOR_BLACK = "black";
+    private final String COLOR_WHITE = "white";
+    private final String COLOR_BLUE = "blue";
+    private final String COLOR_YELLOW = "yellow";
 
     private final Canvas canvas;
     private final Toaster score;
@@ -41,10 +36,8 @@ public class Drawer {
         double xOffset = (w - state.maze.maze[0].length * cellWidth) / 2;
 
         // clear
-        canvas.beginPath();
         canvas.setFill(COLOR_BLACK);
         canvas.fillRect(0, 0, w, h);
-        canvas.closePath();
 
         // draw
         drawMaze(state.maze, cellWidth, xOffset);
@@ -55,7 +48,6 @@ public class Drawer {
 
     private void drawMaze(Maze maze, int cw, double xOffset) {
         int x, y, o = (int) xOffset;
-        canvas.beginPath();
 
         for (x = 0; x < maze.maze[0].length; x++) {
             for (y = 0; y < maze.maze.length; y++) {
@@ -147,7 +139,6 @@ public class Drawer {
                 }
             }
         }
-        canvas.closePath();
     }
 
     private void drawPacMan(PacMan pacMan, int cw, double xOffset) {

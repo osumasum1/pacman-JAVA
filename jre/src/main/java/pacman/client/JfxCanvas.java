@@ -22,14 +22,6 @@ public class JfxCanvas implements Canvas {
         return canvas.getHeight();
     }
 
-    @Override public void beginPath() {
-        context.beginPath();
-    }
-
-    @Override public void closePath() {
-        context.closePath();
-    }
-
     @Override public void setFill(String color) {
         context.setFill(Color.web(color));
     }
