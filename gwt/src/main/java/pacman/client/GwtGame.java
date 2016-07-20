@@ -1,13 +1,15 @@
 package pacman.client;
 
+import static com.google.gwt.safehtml.shared.SafeHtmlUtils.fromTrustedString;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import pacman.shared.Drawer;
 import pacman.shared.MainLoop;
@@ -25,11 +27,9 @@ public class GwtGame implements EntryPoint {
     private Timer ticker;
 
     @Override public void onModuleLoad() {
-        Label labelScore = new Label("Score: 0");
-        RootPanel.get().add(labelScore);
-
-        Drawer.Toaster score = s -> labelScore.setText("Score: " + s);
-        Drawer.Toaster alert = text -> Window.alert(text);
+        MenuItem menuScore = new MenuItem(fromTrustedString("Score: 0"));
+        Drawer.Toaster score = s -> menuScore.setText("Score: " + s);
+        Drawer.Toaster alert = Window::alert;
 
         //Create canvas
         Canvas canvas = Canvas.createIfSupported();
@@ -60,7 +60,7 @@ public class GwtGame implements EntryPoint {
         RootPanel.get(CANVAS_CONTAINER).add(canvas);
         Runnable restart = () -> restart(drawer);
 
-        Command newGame = () -> restart.run();
+        Command newGame = restart::run;
         Command pauseGame = () -> playPause(game);
 
         MenuBar bar = new MenuBar(true);
@@ -69,6 +69,7 @@ public class GwtGame implements EntryPoint {
 
         MenuBar rootBar = new MenuBar();
         rootBar.addItem("Juego", bar);
+        rootBar.addItem(menuScore);
 
         RootPanel.get(BAR_CONTAINER).add(rootBar);
 
