@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM tomcat
 
 COPY gwt/target/pacman-gwt-1.0-SNAPSHOT.war /app/
 
