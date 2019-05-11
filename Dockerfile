@@ -19,4 +19,4 @@
 
 FROM tomcat:8.0
 COPY gwt/target/pacman-gwt-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/
-EXPOSE 8888
+EXPOSE 8080
