@@ -1,7 +1,7 @@
 FROM openjdk:8-jre-alpine
 
-COPY target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar /app/
+COPY gwt/target/pacman-gwt-1.0-SNAPSHOT.war /app/
 
-EXPOSE 8080
+EXPOSE 8888
 
-CMD java -jar /app/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar
+CMD java -jar /app/pacman-gwt-1.0-SNAPSHOT.war
