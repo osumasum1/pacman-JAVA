@@ -18,5 +18,6 @@
 #RUN /app/compile.sh
 
 FROM tomcat:8.0
+MAINTAINER ogarcia
 COPY /gwt/target/pacman-gwt-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/pacman.war
 EXPOSE 8080
